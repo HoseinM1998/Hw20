@@ -8,5 +8,8 @@ namespace AppDomainCore.Contract.User
 {
     public interface IUserService
     {
+        public void Add(Entities.User user);
+        public Entities.User? GetById(int id);
+        public Entities.User? GetByUserName(string userName);
     }
 }

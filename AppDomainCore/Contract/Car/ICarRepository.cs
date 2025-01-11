@@ -8,5 +8,6 @@ namespace AppDomainCore.Contract.Car
 {
     public interface ICarRepository
     {
+        public List<Entities.Car> GetCars();
     }
 }

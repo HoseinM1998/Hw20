@@ -22,6 +22,6 @@ namespace AppDomainCore.Entities
         [Display(Name = "شرکت")]
         public CompanyCarEnum CarEnum { get; set; }
 
-        public List<TechnicalExamination> TechnicalExamination { get; set; }
+        public List<TechnicalExamination>? TechnicalExamination { get; set; }
     }
 }

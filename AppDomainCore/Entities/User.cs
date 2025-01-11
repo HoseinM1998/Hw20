@@ -16,6 +16,9 @@ namespace AppDomainCore.Entities
         [Display(Name = "نام کاربری")]
         public string UserName { get; set; }
 
+        [Display(Name = "شماره تلفن ")]
+        public string Phone { get; set; }
+
         [Display(Name = "رمزعبور")]
         public string Password { get; set; }
 

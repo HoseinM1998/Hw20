@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AppDomainCore.Enum;
 
 namespace AppDomainCore.Entities
 {
@@ -35,7 +36,11 @@ namespace AppDomainCore.Entities
         [Display(Name = "ایدی ماشین")]
         public int CarId { get; set; }
         public Car Car { get; set; }
-        public List<TechnicalExamination> OldCar { get; set; }
+
+        [Display(Name = "وضعیت")]
+        public StatusTechnicalExaminationEnum Status { get; set; }
+
+        public List<TechnicalExamination>? OldCar { get; set; }
 
     }
 }

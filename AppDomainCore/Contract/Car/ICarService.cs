@@ -8,5 +8,7 @@ namespace AppDomainCore.Contract.Car
 {
     public interface ICarService
     {
+        public List<Entities.Car> GetCars();
+
     }
 }
