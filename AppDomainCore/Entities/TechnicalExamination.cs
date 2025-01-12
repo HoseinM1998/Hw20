@@ -37,10 +37,13 @@ namespace AppDomainCore.Entities
         public int CarId { get; set; }
         public Car Car { get; set; }
 
+        [Display(Name = "تاریخ نوبت")]
+        public DateTime AppointmentDate { get; set; }
+
         [Display(Name = "وضعیت")]
         public StatusTechnicalExaminationEnum Status { get; set; }
 
-        public List<TechnicalExamination>? OldCar { get; set; }
+        public OldCar? OldCar { get; set; }
 
     }
 }

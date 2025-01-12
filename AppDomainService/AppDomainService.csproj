@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppDomainCore\AppDomainCore.csproj" />
+    <ProjectReference Include="..\AppInfraDataAccessEf\AppInfraDataAccessEf.csproj" />
+  </ItemGroup>
+
 </Project>

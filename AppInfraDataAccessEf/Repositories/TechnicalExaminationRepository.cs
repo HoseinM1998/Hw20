@@ -23,31 +23,31 @@ namespace AppInfraDataAccessEf.Repositories
 
         public void Add(TechnicalExamination technicalExamination)
         {
-            _context.TechnicalExamination.Add(technicalExamination);
+            _context.TechnicalExaminations.Add(technicalExamination);
             _context.SaveChanges();
         }
 
         public List<TechnicalExamination> GetAll()
         {
-            return _context.TechnicalExamination.Include(C => C.Car).AsNoTracking().ToList();
+            return _context.TechnicalExaminations.Include(C => C.Car).AsNoTracking().ToList();
 
         }
 
         public TechnicalExamination? GetByCarLicensePlate(string carLicensePlate)
         {
-            return _context.TechnicalExamination.AsNoTracking().FirstOrDefault(u => u.CarLicensePlate == carLicensePlate);
+            return _context.TechnicalExaminations.AsNoTracking().FirstOrDefault(u => u.CarLicensePlate == carLicensePlate);
 
         }
 
         public TechnicalExamination? GetById(int id)
         {
-            return _context.TechnicalExamination.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            return _context.TechnicalExaminations.AsNoTracking().FirstOrDefault(u => u.Id == id);
 
         }
 
         public void ChangeStatus(int id,StatusTechnicalExaminationEnum status)
         {
-            var changestatus = _context.TechnicalExamination.Find(id);
+            var changestatus = _context.TechnicalExaminations.Find(id);
             changestatus.Status = status;
             _context.SaveChanges();
             

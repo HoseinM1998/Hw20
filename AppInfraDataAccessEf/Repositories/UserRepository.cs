@@ -20,18 +20,18 @@ namespace AppInfraDataAccessEf.Repositories
         }
         public void Add(User user)
         {
-            _context.User.Add(user);
+            _context.Users.Add(user);
             _context.SaveChanges();
         }
 
         public User? GetById(int id)
         {
-            return _context.User.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            return _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == id);
         }
 
         public User? GetByUserName(string userName)
         {
-            return _context.User.AsNoTracking().FirstOrDefault(u => u.UserName == userName);
+            return _context.Users.AsNoTracking().FirstOrDefault(u => u.UserName == userName);
 
         }
     }

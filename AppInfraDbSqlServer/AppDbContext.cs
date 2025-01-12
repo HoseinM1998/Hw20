@@ -16,9 +16,11 @@ namespace AppInfraDbSqlServer
         //{
 
         //}
-        public DbSet<User> User { get; set; }
-        public DbSet<Car> Car { get; set; }
-        public DbSet<TechnicalExamination> TechnicalExamination { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<OldCar> OldCarsCars { get; set; }
+
+        public DbSet<TechnicalExamination> TechnicalExaminations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
