@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppDomainService
 {
-    internal class UserService
+    public class UserService
     {
     }
 }
