@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AppDomainCore.Entities;
 using AppDomainCore.Enum;
 using AppDomainCore.Contract.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppDomainService
 {
@@ -34,12 +35,17 @@ namespace AppDomainService
             var dayOfWeek = technicalExamination.AppointmentDate.DayOfWeek;
             var Company = technicalExamination.Car.CarEnum;
 
-            if ((Company == CompanyCarEnum.IranKhodro && (dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday || dayOfWeek == DayOfWeek.Friday)) ||
-                (Company == CompanyCarEnum.Saipa && (dayOfWeek == DayOfWeek.Tuesday || dayOfWeek == DayOfWeek.Thursday)))
+            if ((Company == CompanyCarEnum.IranKhodro && (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday )) ||
+                (Company == CompanyCarEnum.Saipa && (dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Tuesday || dayOfWeek == DayOfWeek.Thursday)))
             {
                 throw new Exception("Invalid day for the selected");
             }
-
+            if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
+            {
+                technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
+                _repository.AddOldCAr(technicalExamination);
+                return;
+            }
 
 
             technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
@@ -49,22 +55,45 @@ namespace AppDomainService
 
         public List<TechnicalExamination> GetAll()
         {
-            throw new NotImplementedException();
+            return _repository.GetAll();
         }
 
         public TechnicalExamination? GetByCarLicensePlate(string carLicensePlate)
         {
-            throw new NotImplementedException();
+            var carLicensePlat = _repository.GetByCarLicensePlate(carLicensePlate);
+            if (carLicensePlat == null)
+            {
+                throw new Exception("carLicensePlate Not Found");
+            }
+
+            return carLicensePlat;
         }
 
         public TechnicalExamination? GetById(int id)
         {
-            throw new NotImplementedException();
+            var technicalExamination = _repository.GetById(id);
+            if (technicalExamination == null)
+            {
+                throw new Exception("technicalExamination Not Found");
+            }
+
+            return technicalExamination;
         }
 
         public void ChangeStatus(int id, StatusTechnicalExaminationEnum status)
         {
-            throw new NotImplementedException();
+            var tech = _repository.GetById(id);
+            if(tech == null)
+            {
+                throw new Exception("technicalExamination Not Found");
+            }
+            _repository.ChangeStatus(id,status);
+
+        }
+
+        public List<TechnicalExamination> GetAllOldCar()
+        {
+            return _repository.GetAllOldCar();
         }
     }
 }
