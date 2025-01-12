@@ -40,6 +40,18 @@ namespace AppDomainService
             {
                 throw new Exception("Invalid day for the selected");
             }
+
+            var car = _repository.GetByCarLicensePlate(technicalExamination.CarLicensePlate);
+           if (car != null)
+            {
+                if (car.AppointmentDate.AddYears(1) > DateTime.Now)
+                {
+                    throw new Exception("You Can Only Do It Once A Year");
+
+                }
+            }
+
+
             if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
             {
                 technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
@@ -94,6 +106,11 @@ namespace AppDomainService
         public List<TechnicalExamination> GetAllOldCar()
         {
             return _repository.GetAllOldCar();
+        }
+
+        public void AddOldCAr(TechnicalExamination technicalExamination)
+        {
+            _repository.AddOldCAr(technicalExamination);
         }
     }
 }

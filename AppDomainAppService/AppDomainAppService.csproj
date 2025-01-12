@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppDomainCore\AppDomainCore.csproj" />
+    <ProjectReference Include="..\AppDomainService\AppDomainService.csproj" />
+    <ProjectReference Include="..\AppInfraDbInMemory\AppInfraDbInMemory.csproj" />
+  </ItemGroup>
+
 </Project>
