@@ -5,17 +5,17 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings").Build();
-var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
-builder.Services.AddSingleton(siteSetting);
+//var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings").Build();
+//var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
+//builder.Services.AddSingleton(siteSetting);
 
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 
-builder.Services.AddDbContext<AppDbContext>(option =>
-    option.UseSqlServer(siteSetting.ConnectionString.SqlConnection));
+//builder.Services.AddDbContext<AppDbContext>(option =>
+//    option.UseSqlServer(siteSetting.ConnectionString.SqlConnection));
 
 
 var app = builder.Build();

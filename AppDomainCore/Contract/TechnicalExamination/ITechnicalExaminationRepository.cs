@@ -13,7 +13,8 @@ namespace AppDomainCore.Contract.TechnicalExamination
         public List<Entities.TechnicalExamination> GetAll();
         public  Entities.TechnicalExamination? GetByCarLicensePlate(string carLicensePlate);
         public Entities.TechnicalExamination? GetById(int id);
-        public void ChangeStatus(StatusTechnicalExaminationEnum status);
+        public void ChangeStatus(int id, StatusTechnicalExaminationEnum status);
+
 
     }
 }
