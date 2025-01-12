@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AppDomainCore.Entities;
+using AppInfraDbSqlServer.Configurations;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,30 @@ using System.Threading.Tasks;
 
 namespace AppInfraDbSqlServer
 {
-    internal class AppDbContext
+    
+    public class AppDbContext : DbContext
     {
+        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        //{
+
+        //}
+        public DbSet<User> User { get; set; }
+        public DbSet<Car> Car { get; set; }
+        public DbSet<TechnicalExamination> TechnicalExamination { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CarConfigration());
+            modelBuilder.ApplyConfiguration(new UserCinfigurations());
+            modelBuilder.ApplyConfiguration(new TechnicalExaminationConfiguration());
+
+
+            base.OnModelCreating(modelBuilder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer
+                (@"Server=DESKTOP-78B19T2\SQLEXPRESS; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
+        }
     }
 }

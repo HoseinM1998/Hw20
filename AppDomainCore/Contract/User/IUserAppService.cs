@@ -10,7 +10,6 @@ namespace AppDomainCore.Contract.User
     {
         public Entities.User Register(Entities.User user);
         public Entities.User Login(string username, string password);
-
         public bool Logout();
     }
 }

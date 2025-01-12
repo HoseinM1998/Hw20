@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppInfraDbInMemory
+namespace AppDomainService
 {
-    public static class InMemory
+    internal class UserService
     {
-        public static string? CurentUser { get; set; }
     }
 }

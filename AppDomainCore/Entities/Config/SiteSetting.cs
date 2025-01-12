@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppInfraDbInMemory
+namespace AppDomainCore.Entities.Config
 {
-    public static class InMemory
+    public class SiteSetting
     {
-        public static string? CurentUser { get; set; }
+        public ConnectionString ConnectionString { get; set; }
     }
 }

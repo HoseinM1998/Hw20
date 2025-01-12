@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppInfraDbInMemory
+namespace AppInfraDataAccessEf.Repositories
 {
-    public static class InMemory
+    public class UserRepository
     {
-        public static string? CurentUser { get; set; }
     }
 }
