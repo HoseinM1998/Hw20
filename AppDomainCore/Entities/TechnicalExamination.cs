@@ -43,7 +43,6 @@ namespace AppDomainCore.Entities
         [Display(Name = "وضعیت")]
         public StatusTechnicalExaminationEnum Status { get; set; }
 
-        public OldCar? OldCar { get; set; }
 
     }
 }

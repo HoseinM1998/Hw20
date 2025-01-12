@@ -18,7 +18,7 @@ namespace AppInfraDbSqlServer
         //}
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<OldCar> OldCarsCars { get; set; }
+        public DbSet<TechnicalExamination> OldCars { get; set; }
 
         public DbSet<TechnicalExamination> TechnicalExaminations { get; set; }
 

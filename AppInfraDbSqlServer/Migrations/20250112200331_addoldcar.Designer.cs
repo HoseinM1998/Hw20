@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppInfraDbSqlServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250112195442_add")]
-    partial class add
+    [Migration("20250112200331_addoldcar")]
+    partial class addoldcar
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,25 +149,6 @@ namespace AppInfraDbSqlServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AppDomainCore.Entities.OldCar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TechnicalExaminationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TechnicalExaminationId")
-                        .IsUnique();
-
-                    b.ToTable("OldCarsCars");
-                });
-
             modelBuilder.Entity("AppDomainCore.Entities.TechnicalExamination", b =>
                 {
                     b.Property<int>("Id")
@@ -212,7 +193,7 @@ namespace AppInfraDbSqlServer.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("TechnicalExaminations");
+                    b.ToTable("TechnicalExamination");
                 });
 
             modelBuilder.Entity("AppDomainCore.Entities.User", b =>
@@ -277,17 +258,6 @@ namespace AppInfraDbSqlServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AppDomainCore.Entities.OldCar", b =>
-                {
-                    b.HasOne("AppDomainCore.Entities.TechnicalExamination", "TechnicalExamination")
-                        .WithOne("OldCar")
-                        .HasForeignKey("AppDomainCore.Entities.OldCar", "TechnicalExaminationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TechnicalExamination");
-                });
-
             modelBuilder.Entity("AppDomainCore.Entities.TechnicalExamination", b =>
                 {
                     b.HasOne("AppDomainCore.Entities.Car", "Car")
@@ -302,11 +272,6 @@ namespace AppInfraDbSqlServer.Migrations
             modelBuilder.Entity("AppDomainCore.Entities.Car", b =>
                 {
                     b.Navigation("TechnicalExamination");
-                });
-
-            modelBuilder.Entity("AppDomainCore.Entities.TechnicalExamination", b =>
-                {
-                    b.Navigation("OldCar");
                 });
 #pragma warning restore 612, 618
         }
