@@ -22,13 +22,13 @@ namespace AppDomainService
         {
             bool isSpecial = user.Password.Any(s => (s >= 33 && s <= 47) || s == 64);
 
-            if (user.Password.Length < 5 || user.Password.Length > 10 || !isSpecial)
+            if (user.Password.Length < 4|| user.Password.Length > 8 || !isSpecial)
             {
                 throw new Exception("Password > 4 Char And One Special Character");
             }
 
             var userNa = _repository.GetByUserName(user.UserName);
-            if (user != null)
+            if (userNa != null)
             {
                 throw new Exception("Existing UserName");
 

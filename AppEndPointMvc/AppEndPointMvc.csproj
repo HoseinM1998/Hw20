@@ -23,7 +23,10 @@
   <ItemGroup>
     <Folder Include="Views\Car\" />
     <Folder Include="Views\OldCar\" />
-    <Folder Include="Views\User\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\UserController.cs" />
   </ItemGroup>
 
 </Project>
