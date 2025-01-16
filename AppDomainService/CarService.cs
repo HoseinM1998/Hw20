@@ -18,9 +18,24 @@ namespace AppDomainService
             _repository = repository;
         }
 
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+
+        public Car? GetById(int id)
+        {
+           return _repository.GetById(id);
+        }
+
         public List<Car> GetCars()
         {
            return _repository.GetCars();
+        }
+
+        public void Update(int id, Car car)
+        {
+            _repository.Update(id, car);
         }
     }
 }
