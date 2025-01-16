@@ -45,7 +45,7 @@ namespace AppInfraDataAccessEf.Repositories
             if (updateCar != null)
             {
                 updateCar.Model = car.Model;
-                updateCar.CarEnum = car.CarEnum;
+                updateCar.CarEnum = car.CarEnum; 
                 _context.SaveChanges();
             }
         }

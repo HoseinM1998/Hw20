@@ -9,6 +9,8 @@ using AppDomainCore.Enum;
 using AppDomainCore.Contract.User;
 using Microsoft.EntityFrameworkCore;
 using AppDomainCore.Contract.OldCar;
+using AppDomainCore.Contract.Car;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AppDomainService
 {
@@ -17,12 +19,14 @@ namespace AppDomainService
 
         private readonly ITechnicalExaminationRepository _repository;
         private readonly IOldCarRepository _repositoryOldCAr;
+        private readonly ICarRepository _repositoryCar;
 
-
-        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr)
+        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar)
         {
             _repository = repository;
             _repositoryOldCAr = repositoryOldCAr;
+            _repositoryCar = repositoryCar;
+
         }
 
         public void Add(TechnicalExamination technicalExamination)
@@ -37,7 +41,8 @@ namespace AppDomainService
 
             }
             var dayOfWeek = technicalExamination.AppointmentDate.DayOfWeek;
-            var Company = technicalExamination.Car.CarEnum;
+            var Enum = _repositoryCar.GetById(technicalExamination.CarId);
+            var Company = Enum.CarEnum;
 
             if ((Company == CompanyCarEnum.IranKhodro && (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday )) ||
                 (Company == CompanyCarEnum.Saipa && (dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Tuesday || dayOfWeek == DayOfWeek.Thursday)))

@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AppDomainCore.Contract.OldCar;
 
 namespace AppInfraDataAccessEf.Repositories
 {
-    public class OldCarRepository
+    public class OldCarRepository : IOldCarRepository
     {
 
         private readonly AppDbContext _context;

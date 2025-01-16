@@ -35,7 +35,7 @@ namespace AppDomainCore.Entities
 
         [Display(Name = "ایدی ماشین")]
         public int CarId { get; set; }
-        public Car Car { get; set; }
+        public Car? Car { get; set; }
 
         [Display(Name = "تاریخ نوبت")]
         public DateTime AppointmentDate { get; set; }
@@ -46,7 +46,5 @@ namespace AppDomainCore.Entities
         [Display(Name = "وضعیت")]
         public StatusTechnicalExaminationEnum Status { get; set; }
 
-        public bool IsOldCar { get; set; }
-        public OldCar oldCar { get; set; }
     }
 }

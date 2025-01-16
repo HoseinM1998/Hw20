@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppDomainAppService
 {
-    public class OldCarAppService
+    public class OldCarAppService : IOldCarAppService
     {
         private readonly IOldCarService _carService;
 
@@ -18,7 +18,7 @@ namespace AppDomainAppService
             _carService = carService;
         }
 
-        public List<OldCar> GetOldCars()
+        public List<OldCar> GetAllOldCars()
         {
             try
             {
@@ -29,5 +29,7 @@ namespace AppDomainAppService
                 throw new Exception("Error GetCars");
             }
         }
+
+    
     }
 }

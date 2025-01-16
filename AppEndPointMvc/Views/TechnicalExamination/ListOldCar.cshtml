@@ -1,0 +1,33 @@
+﻿@model List<AppDomainCore.Entities.OldCar> 
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ایدی</th>
+        <th>نام و نام خانوادگی</th>
+        <th>شماره تلفن</th>
+        <th>کد ملی</th>
+        <th>شماره پلاک</th>
+        <th>سال تولید</th>
+        <th>آدرس</th>
+        <th>تاریخ درخواست</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var car in Model)
+    {
+        <tr>
+            <td>@car.Id</td>
+            <td>@car.FullName</td>
+            <td>@car.Phone</td>
+            <td>@car.NationalCode</td>
+            <td>@car.CarLicensePlate</td>
+            <td>@car.YearProduction.ToString("yyyy")</td>
+            <td>@car.Address</td>
+            <td>@car.RequestDate.ToString("yyyy-MM-dd")</td>
+        </tr>
+    }
+    </tbody>
+</table>

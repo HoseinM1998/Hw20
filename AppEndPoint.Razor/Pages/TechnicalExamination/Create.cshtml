@@ -1,0 +1,66 @@
+﻿@page
+@model AppEndPoint.Razor.Pages.TechnicalExamination.CreateModel
+@{
+    ViewData["Title"] = "Create Technical Examination";
+}
+
+<h2>Create Technical Examination</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="FullName">نام و نام خاندگی</label>
+        <input type="text" class="form-control" id="FullName" name="TechnicalExamination.FullName" value="@Model.TechnicalExamination.FullName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Phone">تلفن همراه</label>
+        <input type="text" class="form-control" id="Phone" name="TechnicalExamination.Phone" value="@Model.TechnicalExamination.Phone" required />
+    </div>
+
+    <div class="form-group">
+        <label for="NationalCode"> کدملی</label>
+        <input type="text" class="form-control" id="NationalCode" name="TechnicalExamination.NationalCode" value="@Model.TechnicalExamination.NationalCode" required />
+    </div>
+
+    <div class="form-group">
+        <label for="CarLicensePlate"> شماره پلاک </label>
+        <input type="text" class="form-control" id="CarLicensePlate" name="TechnicalExamination.CarLicensePlate" value="@Model.TechnicalExamination.CarLicensePlate" required />
+    </div>
+
+    <div class="form-group">
+        <label for="YearProduction"> سال تولید </label>
+        <input type="date" class="form-control" id="YearProduction" name="TechnicalExamination.YearProduction" value="@Model.TechnicalExamination.YearProduction" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Address">آدرس</label>
+        <input type="text" class="form-control" id="Address" name="TechnicalExamination.Address" value="@Model.TechnicalExamination.Address" required />
+    </div>
+
+    <div class="form-group">
+        <label for="CarId">مدل خودرو</label>
+        <select class="form-control" id="CarId" name="TechnicalExamination.CarId" required>
+            <option value="">Select Car</option>
+            @foreach (var car in Model.Cars)
+            {
+                <option value="@car.Id">
+                    @car.Model
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="AppointmentDate">تاریخ نوبت</label>
+        <input type="date" class="form-control" id="AppointmentDate" name="TechnicalExamination.AppointmentDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <strong>Error!</strong> Please check the fields.
+    </div>
+}

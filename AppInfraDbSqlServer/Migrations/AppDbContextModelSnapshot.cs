@@ -216,9 +216,6 @@ namespace AppInfraDbSqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsOldCar")
-                        .HasColumnType("bit");
-
                     b.Property<string>("NationalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -236,14 +233,9 @@ namespace AppInfraDbSqlServer.Migrations
                     b.Property<DateTime>("YearProduction")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("oldCarId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("oldCarId");
 
                     b.ToTable("TechnicalExaminations");
                 });
@@ -329,15 +321,7 @@ namespace AppInfraDbSqlServer.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("AppDomainCore.Entities.OldCar", "oldCar")
-                        .WithMany()
-                        .HasForeignKey("oldCarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Car");
-
-                    b.Navigation("oldCar");
                 });
 
             modelBuilder.Entity("AppDomainCore.Entities.Car", b =>
