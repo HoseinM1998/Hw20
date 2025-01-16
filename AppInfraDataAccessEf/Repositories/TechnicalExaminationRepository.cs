@@ -53,17 +53,6 @@ namespace AppInfraDataAccessEf.Repositories
             
         }
 
-        public void AddOldCAr(TechnicalExamination technicalExamination)
-        {
-            _context.OldCars.Add(technicalExamination);
-            _context.SaveChanges();
-        }
-        
 
-        public List<TechnicalExamination> GetAllOldCar()
-        {
-            return _context.OldCars.Include(C => C.Car).AsNoTracking().ToList();
-
-        }
     }
 }

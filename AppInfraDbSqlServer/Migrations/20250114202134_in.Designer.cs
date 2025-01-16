@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppInfraDbSqlServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250112174431_init")]
-    partial class init
+    [Migration("20250114202134_in")]
+    partial class @in
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -42,7 +42,7 @@ namespace AppInfraDbSqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
 
                     b.HasData(
                         new
@@ -161,6 +161,9 @@ namespace AppInfraDbSqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
@@ -183,17 +186,12 @@ namespace AppInfraDbSqlServer.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TechnicalExaminationId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("YearProduction")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("TechnicalExaminationId");
 
                     b.ToTable("TechnicalExamination");
                 });
@@ -223,7 +221,7 @@ namespace AppInfraDbSqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -268,21 +266,12 @@ namespace AppInfraDbSqlServer.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("AppDomainCore.Entities.TechnicalExamination", null)
-                        .WithMany("OldCar")
-                        .HasForeignKey("TechnicalExaminationId");
-
                     b.Navigation("Car");
                 });
 
             modelBuilder.Entity("AppDomainCore.Entities.Car", b =>
                 {
                     b.Navigation("TechnicalExamination");
-                });
-
-            modelBuilder.Entity("AppDomainCore.Entities.TechnicalExamination", b =>
-                {
-                    b.Navigation("OldCar");
                 });
 #pragma warning restore 612, 618
         }

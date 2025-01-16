@@ -8,6 +8,7 @@ using AppDomainCore.Entities;
 using AppDomainCore.Enum;
 using AppDomainCore.Contract.User;
 using Microsoft.EntityFrameworkCore;
+using AppDomainCore.Contract.OldCar;
 
 namespace AppDomainService
 {
@@ -15,10 +16,13 @@ namespace AppDomainService
     {
 
         private readonly ITechnicalExaminationRepository _repository;
+        private readonly IOldCarRepository _repositoryOldCAr;
 
-        public TechnicalExaminationService(ITechnicalExaminationRepository repository)
+
+        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr)
         {
             _repository = repository;
+            _repositoryOldCAr = repositoryOldCAr;
         }
 
         public void Add(TechnicalExamination technicalExamination)
@@ -54,12 +58,23 @@ namespace AppDomainService
 
             if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
             {
-                technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
-                _repository.AddOldCAr(technicalExamination);
+                OldCar oldCar = new OldCar
+                {
+                    FullName = technicalExamination.FullName,
+                    Phone = technicalExamination.Phone,
+                    NationalCode = technicalExamination.NationalCode,
+                    CarLicensePlate = technicalExamination.CarLicensePlate,
+                    YearProduction = technicalExamination.YearProduction,
+                    Address = technicalExamination.Address,
+                    CarId = technicalExamination.CarId,
+                    RequestDate = DateTime.Now 
+                };
+
+                _repositoryOldCAr.AddOldCAr(oldCar);
                 return;
             }
 
-
+            technicalExamination.RequestDate = DateTime.Now;
             technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
             _repository.Add(technicalExamination);
 
@@ -103,14 +118,5 @@ namespace AppDomainService
 
         }
 
-        public List<TechnicalExamination> GetAllOldCar()
-        {
-            return _repository.GetAllOldCar();
-        }
-
-        public void AddOldCAr(TechnicalExamination technicalExamination)
-        {
-            _repository.AddOldCAr(technicalExamination);
-        }
     }
 }

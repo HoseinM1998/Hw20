@@ -23,14 +23,9 @@ namespace AppDomainAppService
         {
             try
             {
-                if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
-                {
-                    _techService.AddOldCAr(technicalExamination);
-                }
-                else
-                {
-                    _techService.Add(technicalExamination);
-                }
+
+                _techService.Add(technicalExamination);
+
             }
             catch (Exception ex)
             {
@@ -66,7 +61,7 @@ namespace AppDomainAppService
         {
             try
             {
-                _techService.ChangeStatus(id,status);
+                _techService.ChangeStatus(id, status);
             }
             catch (Exception ex)
             {
@@ -74,16 +69,5 @@ namespace AppDomainAppService
             }
         }
 
-        public List<TechnicalExamination> GetAllOldCar()
-        {
-            try
-            {
-                return _techService.GetAllOldCar();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error GetAll TechnicalExamination");
-            }
-        }
     }
 }

@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AppInfraDbSqlServer.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class @in : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Car",
+                name: "Cars",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,11 +24,11 @@ namespace AppInfraDbSqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Car", x => x.Id);
+                    table.PrimaryKey("PK_Cars", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -40,7 +40,7 @@ namespace AppInfraDbSqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,26 +56,21 @@ namespace AppInfraDbSqlServer.Migrations
                     YearProduction = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    TechnicalExaminationId = table.Column<int>(type: "int", nullable: true)
+                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TechnicalExamination", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TechnicalExamination_Car_CarId",
+                        name: "FK_TechnicalExamination_Cars_CarId",
                         column: x => x.CarId,
-                        principalTable: "Car",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TechnicalExamination_TechnicalExamination_TechnicalExaminationId",
-                        column: x => x.TechnicalExaminationId,
-                        principalTable: "TechnicalExamination",
+                        principalTable: "Cars",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
-                table: "Car",
+                table: "Cars",
                 columns: new[] { "Id", "CarEnum", "Model" },
                 values: new object[,]
                 {
@@ -99,7 +94,7 @@ namespace AppInfraDbSqlServer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
+                table: "Users",
                 columns: new[] { "Id", "Password", "Phone", "Role", "UserName" },
                 values: new object[,]
                 {
@@ -113,11 +108,6 @@ namespace AppInfraDbSqlServer.Migrations
                 name: "IX_TechnicalExamination_CarId",
                 table: "TechnicalExamination",
                 column: "CarId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TechnicalExamination_TechnicalExaminationId",
-                table: "TechnicalExamination",
-                column: "TechnicalExaminationId");
         }
 
         /// <inheritdoc />
@@ -127,10 +117,10 @@ namespace AppInfraDbSqlServer.Migrations
                 name: "TechnicalExamination");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Car");
+                name: "Cars");
         }
     }
 }

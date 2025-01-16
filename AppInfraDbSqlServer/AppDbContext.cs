@@ -18,12 +18,14 @@ namespace AppInfraDbSqlServer
         //}
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<TechnicalExamination> OldCars { get; set; }
+        public DbSet<OldCar> OldCars { get; set; }
 
         public DbSet<TechnicalExamination> TechnicalExaminations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+         
+
             modelBuilder.ApplyConfiguration(new CarConfigration());
             modelBuilder.ApplyConfiguration(new UserCinfigurations());
             modelBuilder.ApplyConfiguration(new TechnicalExaminationConfiguration());
@@ -34,7 +36,7 @@ namespace AppInfraDbSqlServer
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer
-                (@"Server=DESKTOP-78B19T2\SQLEXPRESS; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
+                (@"Server=LAPTOP-GM2D722B; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
         }
     }
 }

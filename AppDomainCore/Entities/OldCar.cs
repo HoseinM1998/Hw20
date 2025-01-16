@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppDomainCore.Enum;
 
 namespace AppDomainCore.Entities
 {
-    public class TechnicalExamination
+    public class OldCar 
     {
         [Display(Name = "ایدی")]
         public int Id { get; set; }
@@ -37,16 +35,8 @@ namespace AppDomainCore.Entities
         public int CarId { get; set; }
         public Car Car { get; set; }
 
-        [Display(Name = "تاریخ نوبت")]
-        public DateTime AppointmentDate { get; set; }
-
         [Display(Name = "تاریخ درخواست")]
         public DateTime RequestDate { get; set; }
 
-        [Display(Name = "وضعیت")]
-        public StatusTechnicalExaminationEnum Status { get; set; }
-
-        public bool IsOldCar { get; set; }
-        public OldCar oldCar { get; set; }
     }
 }
