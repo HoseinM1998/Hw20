@@ -19,6 +19,12 @@ namespace AppInfraDataAccessEf.Repositories
             _context = context;
         }
 
+        public void Add(Car car)
+        {
+            _context.Cars.Add(car);
+            _context.SaveChanges();
+
+        }
         public void Delete(int id)
         {
             var car = _context.Cars.FirstOrDefault(p => p.Id == id);
@@ -45,7 +51,7 @@ namespace AppInfraDataAccessEf.Repositories
             if (updateCar != null)
             {
                 updateCar.Model = car.Model;
-                updateCar.CarEnum = car.CarEnum; 
+                updateCar.CarEnum = car.CarEnum;
                 _context.SaveChanges();
             }
         }

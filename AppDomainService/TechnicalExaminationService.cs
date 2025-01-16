@@ -10,6 +10,7 @@ using AppDomainCore.Contract.User;
 using Microsoft.EntityFrameworkCore;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.Car;
+using Microsoft.Extensions.Configuration;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AppDomainService
@@ -20,14 +21,19 @@ namespace AppDomainService
         private readonly ITechnicalExaminationRepository _repository;
         private readonly IOldCarRepository _repositoryOldCAr;
         private readonly ICarRepository _repositoryCar;
+        private readonly IConfiguration _configuration;
 
-        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar)
+
+        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar,IConfiguration configuration)
         {
             _repository = repository;
             _repositoryOldCAr = repositoryOldCAr;
             _repositoryCar = repositoryCar;
+            _configuration = configuration;
 
         }
+
+       
 
         public void Add(TechnicalExamination technicalExamination)
         {
@@ -59,6 +65,18 @@ namespace AppDomainService
 
                 }
             }
+            var saipa = int.Parse(_configuration.GetSection("LimitData:Saipa").Value);
+            var iranKhodro = int.Parse(_configuration.GetSection("LimitData:IranKhodro").Value);
+
+            var dailyCount = _repository.GetDailyCount(technicalExamination.AppointmentDate, Company);
+
+            if ((Company == CompanyCarEnum.Saipa && dailyCount >= saipa) ||
+                (Company == CompanyCarEnum.IranKhodro && dailyCount >= iranKhodro))
+            {
+                throw new Exception("Capacity Is Full Today, Choose Another Day");
+            }
+
+
 
 
             if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)

@@ -12,6 +12,8 @@ namespace AppDomainCore.Contract.Car
         public void Update(int id, Entities.Car car);
         public void Delete(int id);
         public Entities.Car? GetById(int id);
+        public void Add(Entities.Car car);
+
     }
 
 }

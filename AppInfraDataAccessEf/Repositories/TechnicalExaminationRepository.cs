@@ -53,6 +53,11 @@ namespace AppInfraDataAccessEf.Repositories
             
         }
 
-
+        public int GetDailyCount(DateTime date, CompanyCarEnum company)
+        {
+            return _context.TechnicalExaminations
+                .Where(t => t.AppointmentDate.Date == date.Date && t.Car.CarEnum == company)
+                .Count();
+        }
     }
 }

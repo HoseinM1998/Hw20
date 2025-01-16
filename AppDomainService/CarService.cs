@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AppDomainCore.Contract.Car;
@@ -26,6 +27,16 @@ namespace AppDomainService
         public Car? GetById(int id)
         {
            return _repository.GetById(id);
+        }
+
+        public void Add(Car car)
+        {
+            if (car == null)
+            {
+                throw new Exception("Error NotNull");
+
+            }
+            _repository.Add(car);
         }
 
         public List<Car> GetCars()

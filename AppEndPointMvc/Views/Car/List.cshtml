@@ -1,0 +1,119 @@
+﻿@model IEnumerable<AppDomainCore.Entities.Car>
+
+@{
+    ViewData["Title"] = "لیست خودروها";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>آیدی</th>
+            <th>مدل</th>
+            <th>شرکت سازنده</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Id</td>
+                <td>@car.Model</td>
+                <td>@car.CarEnum</td>
+                <td>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editModal_@car.Id">ویرایش</button>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#aboutModal_@car.Id">مشخصات</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal_@car.Id">حذف</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Car")" class="btn btn-dark">افزودن خودرو جدید</a>
+
+<!-- Modal for Edit -->
+@foreach (var car in Model)
+{
+    <div class="modal fade" id="editModal_@car.Id" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">ویرایش خودرو</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="@Url.Action("Edit", "Car", new { id = car.Id })">
+                        <div class="form-group">
+                            <label for="Model">مدل خودرو</label>
+                            <input type="text" class="form-control" id="Model" name="Model" value="@car.Model" required />
+                        </div>
+                        <div class="form-group">
+                            <label>شرکت</label><br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="CarEnum_IranKhodro" name="CarEnum" value="1" @(car.CarEnum == AppDomainCore.Enum.CompanyCarEnum.IranKhodro ? "checked" : "") required />
+                                <label class="form-check-label" for="CarEnum_IranKhodro">ایرانخودرو</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="CarEnum_Saipa" name="CarEnum" value="2" @(car.CarEnum == AppDomainCore.Enum.CompanyCarEnum.Saipa ? "checked" : "") required />
+                                <label class="form-check-label" for="CarEnum_Saipa">سایپا</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">بستن</button>
+                            <button type="submit" class="btn btn-dark">ویرایش</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal for Delete -->
+@foreach (var car in Model)
+{
+    <div class="modal fade" id="deleteModal_@car.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">حذف خودرو</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>آیا مطمئن هستید که می‌خواهید خودرو با مدل <strong>@car.Model</strong> را حذف کنید؟</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">بستن</button>
+                    <form method="post" action="@Url.Action("Delete", "Car", new { id = car.Id })">
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var car in Model)
+{
+    <div class="modal fade" id="aboutModal_@car.Id" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">مشخصات خودرو</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>آیدی:</strong> @car.Id</p>
+                    <p><strong>مدل:</strong> @car.Model</p>
+                    <p><strong>شرکت سازنده:</strong> @car.CarEnum</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

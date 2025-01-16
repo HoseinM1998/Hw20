@@ -42,6 +42,18 @@ namespace AppDomainAppService
             }
         }
 
+        public void Create(Car car)
+        {
+            try
+            {
+               _carService.Add(car);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error: {ex.Message}");
+            }
+        }
+
         public List<Car> GetCars()
         {
             try

@@ -21,11 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Car\" />
-    <Folder Include="Views\OldCar\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Controllers\UserController.cs" />
   </ItemGroup>
 

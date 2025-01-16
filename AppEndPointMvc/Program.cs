@@ -17,8 +17,13 @@ builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
 
+var saipa = builder.Configuration.GetSection("LimitData:Saipa").Value;
+var iranKhodro = builder.Configuration.GetSection("LimitData:IranKhodro").Value;
 
 
+
+builder.Services.AddSingleton(iranKhodro);
+builder.Services.AddSingleton(saipa);
 
 //var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings").Build();
 //var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();

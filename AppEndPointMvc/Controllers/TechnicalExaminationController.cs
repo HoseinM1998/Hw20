@@ -12,13 +12,14 @@ namespace AppEndPointMvc.Controllers
         private readonly ICarAppService _carAppService;
         private readonly ITechnicalExaminationAppService _techAppService;
         private readonly IOldCarAppService _oldcarAppService;
-
+  
 
         public TechnicalExaminationController(ICarAppService carAppService, ITechnicalExaminationAppService techAppService, IOldCarAppService oldcarAppService)
         {
             _carAppService = carAppService;
             _techAppService = techAppService;
             _oldcarAppService = oldcarAppService;
+
         }
 
         public IActionResult Create()
@@ -26,6 +27,8 @@ namespace AppEndPointMvc.Controllers
             try
             {
                 var cars = _carAppService.GetCars();
+
+       
                 return View(cars);
             }
             catch (Exception ex)
@@ -42,7 +45,7 @@ namespace AppEndPointMvc.Controllers
             {
                 _techAppService.Add(technical);
                 TempData["Success"] = "درخواست شما با موفقیت ثبت شد";
-                return RedirectToAction("List");
+                return RedirectToAction("Index","Home");
             }
             catch (Exception ex)
             {
