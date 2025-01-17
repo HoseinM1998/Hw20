@@ -5,9 +5,11 @@ using AppDomainCore.Contract.Car;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.TechnicalExamination;
 using AppDomainCore.Contract.User;
+using AppDomainCore.Entities.Config;
 using AppDomainService;
 using AppInfraDataAccessEf.Repositories;
 using AppInfraDbSqlServer;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,17 +21,18 @@ builder.Services.AddControllersWithViews()
 
 var saipa = builder.Configuration.GetSection("LimitData:Saipa").Value;
 var iranKhodro = builder.Configuration.GetSection("LimitData:IranKhodro").Value;
-
-
-
 builder.Services.AddSingleton(iranKhodro);
 builder.Services.AddSingleton(saipa);
 
-//var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings").Build();
-//var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
-//builder.Services.AddSingleton(siteSetting);
 
 
+var congiguration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+var siteSetting = congiguration.GetSection(nameof(SiteSetting)).Get<SiteSetting>();
+builder.Services.AddSingleton(siteSetting);
+
+builder.Services.AddDbContext<AppDbContext>(option =>
+    option.UseSqlServer(siteSetting.ConnectionString.SqlConnection)
+    );
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -49,7 +52,9 @@ builder.Services.AddScoped<IOldCarService, OldCarService>();
 builder.Services.AddScoped<IOldCarAppService, OldCarAppService>();
 
 
-builder.Services.AddDbContext<AppDbContext>();
+//builder.Services.AddDbContext<AppDbContext>(option =>
+//    option.UseSqlServer(builder.Configuration.GetSection("SiteSetting:ConnectionString:SqlConnection").Value
+//    ));
 
 
 // Add services to the container.

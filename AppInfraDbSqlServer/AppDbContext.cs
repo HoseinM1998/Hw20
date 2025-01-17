@@ -33,10 +33,14 @@ namespace AppInfraDbSqlServer
 
             base.OnModelCreating(modelBuilder);
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer
+        //        (@"Server=LAPTOP-GM2D722B; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
+        //}
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer
-                (@"Server=LAPTOP-GM2D722B; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
         }
     }
 }

@@ -34,7 +34,7 @@
 
 <a href="@Url.Action("Create", "Car")" class="btn btn-dark">افزودن خودرو جدید</a>
 
-<!-- Modal for Edit -->
+
 @foreach (var car in Model)
 {
     <div class="modal fade" id="editModal_@car.Id" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -72,7 +72,7 @@
     </div>
 }
 
-<!-- Modal for Delete -->
+
 @foreach (var car in Model)
 {
     <div class="modal fade" id="deleteModal_@car.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

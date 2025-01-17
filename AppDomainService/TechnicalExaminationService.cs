@@ -10,6 +10,7 @@ using AppDomainCore.Contract.User;
 using Microsoft.EntityFrameworkCore;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.Car;
+using AppDomainCore.Entities.Config;
 using Microsoft.Extensions.Configuration;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -22,14 +23,17 @@ namespace AppDomainService
         private readonly IOldCarRepository _repositoryOldCAr;
         private readonly ICarRepository _repositoryCar;
         private readonly IConfiguration _configuration;
+        private readonly SiteSetting _siteSetting;
 
 
-        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar,IConfiguration configuration)
+
+        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar,IConfiguration configuration, SiteSetting siteSetting)
         {
             _repository = repository;
             _repositoryOldCAr = repositoryOldCAr;
             _repositoryCar = repositoryCar;
             _configuration = configuration;
+            _siteSetting = siteSetting;
 
         }
 
@@ -45,6 +49,24 @@ namespace AppDomainService
             {
                 throw new Exception("The Date Must Be Up To Date");
 
+            }
+
+            if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
+            {
+                OldCar oldCar = new OldCar
+                {
+                    FullName = technicalExamination.FullName,
+                    Phone = technicalExamination.Phone,
+                    NationalCode = technicalExamination.NationalCode,
+                    CarLicensePlate = technicalExamination.CarLicensePlate,
+                    YearProduction = technicalExamination.YearProduction,
+                    Address = technicalExamination.Address,
+                    CarId = technicalExamination.CarId,
+                    RequestDate = DateTime.Now
+                };
+
+                _repositoryOldCAr.AddOldCAr(oldCar);
+                return;
             }
             var dayOfWeek = technicalExamination.AppointmentDate.DayOfWeek;
             var Enum = _repositoryCar.GetById(technicalExamination.CarId);
@@ -64,9 +86,22 @@ namespace AppDomainService
                     throw new Exception("You Can Only Do It Once A Year");
 
                 }
+                throw new Exception("Existing Car");
             }
-            var saipa = int.Parse(_configuration.GetSection("LimitData:Saipa").Value);
-            var iranKhodro = int.Parse(_configuration.GetSection("LimitData:IranKhodro").Value);
+            //var saipa = int.Parse(_configuration.GetSection("LimitData:Saipa").Value);
+            //var iranKhodro = int.Parse(_configuration.GetSection("LimitData:IranKhodro").Value);
+
+            //var dailyCount = _repository.GetDailyCount(technicalExamination.AppointmentDate, Company);
+
+            //if ((Company == CompanyCarEnum.Saipa && dailyCount >= saipa) ||
+            //    (Company == CompanyCarEnum.IranKhodro && dailyCount >= iranKhodro))
+            //{
+            //    throw new Exception("Capacity Is Full Today, Choose Another Day");
+            //}
+
+
+            var saipa = int.Parse(_siteSetting.LimitData.Saipa);
+            var iranKhodro = int.Parse(_siteSetting.LimitData.IranKhodro);
 
             var dailyCount = _repository.GetDailyCount(technicalExamination.AppointmentDate, Company);
 
@@ -79,23 +114,6 @@ namespace AppDomainService
 
 
 
-            if (technicalExamination.YearProduction.Year < DateTime.Now.Year - 5)
-            {
-                OldCar oldCar = new OldCar
-                {
-                    FullName = technicalExamination.FullName,
-                    Phone = technicalExamination.Phone,
-                    NationalCode = technicalExamination.NationalCode,
-                    CarLicensePlate = technicalExamination.CarLicensePlate,
-                    YearProduction = technicalExamination.YearProduction,
-                    Address = technicalExamination.Address,
-                    CarId = technicalExamination.CarId,
-                    RequestDate = DateTime.Now 
-                };
-
-                _repositoryOldCAr.AddOldCAr(oldCar);
-                return;
-            }
 
             technicalExamination.RequestDate = DateTime.Now;
             technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;

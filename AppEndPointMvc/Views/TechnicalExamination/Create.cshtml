@@ -1,5 +1,20 @@
-﻿@model List<AppDomainCore.Entities.Car> 
+﻿@model List<AppDomainCore.Entities.Car>
+
+
+
 <h2>فرم معاینه فنی</h2>
+
+@if (TempData["Success"] != null)
+
+{
+    <div class="alert alert-primary" role="alert">
+        <samp>
+            @TempData["Success"].ToString();
+
+        </samp>
+    </div>
+}
+
 
 <form method="post">
     <div class="form-group">
@@ -32,7 +47,7 @@
         <label for="CarId">مدل خودرو</label>
         <select class="form-control" id="CarId" name="CarId" required>
             <option value="">انتخاب کنید</option>
-            @foreach (var car in Model)  
+            @foreach (var car in Model)
             {
                 <option value="@car.Id">@car.Model</option>
             }
