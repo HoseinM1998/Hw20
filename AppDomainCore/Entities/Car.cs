@@ -16,10 +16,12 @@ namespace AppDomainCore.Entities
 
 
         [Display(Name = "مدل")]
+        [Required(ErrorMessage = "وارد کردن مدل اجباری است")]
         public string Model { get; set; }
 
 
         [Display(Name = "شرکت")]
+        [Required(ErrorMessage = "انتخاب کردن شرکت اجباری است")]
         public CompanyCarEnum CarEnum { get; set; }
 
         public List<TechnicalExamination>? TechnicalExamination { get; set; }

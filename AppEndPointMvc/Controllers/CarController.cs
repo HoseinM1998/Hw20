@@ -31,12 +31,17 @@ namespace AppEndPointMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                TempData["Success"] = " ادد شما با موفقیت ثبت شد";
                 _carAppService.Create(car); 
                 return RedirectToAction("List");
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty,"فیلد هارو درست پرکنید");
+                return View(car);
+            }
 
-            return View(car); 
+
         }
 
 
@@ -45,6 +50,7 @@ namespace AppEndPointMvc.Controllers
             var car = _carAppService.GetById(id); 
             if (car == null)
             {
+                TempData["Error"] = "خطا در نمایش خودرو: ";
                 return NotFound(); 
             }
 
@@ -59,10 +65,11 @@ namespace AppEndPointMvc.Controllers
                 var existingCar = _carAppService.GetById(id);
                 if (existingCar == null)
                 {
+                    TempData["Error"] = "خطا دراویرایش خودرو: ";
                     return NotFound(); 
                 }
 
-         
+                TempData["Success"] = " ادیت شما با موفقیت ثبت شد";
                 _carAppService.Update(id, car);
                 return RedirectToAction("List"); 
             }
@@ -70,12 +77,13 @@ namespace AppEndPointMvc.Controllers
             return View(car); 
         }
 
-        // حذف خودرو
-        public IActionResult Delete(int id)
+
+        public IActionResult CarDelete(int id)
         {
             var car = _carAppService.GetById(id); 
             if (car == null)
             {
+                TempData["Error"] = "خطا در نمایش خودرو: ";
                 return NotFound(); 
             }
 
@@ -83,9 +91,10 @@ namespace AppEndPointMvc.Controllers
         }
 
  
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public IActionResult Delete(int id)
         {
+            TempData["Success"] = "خودرو با موفقیت حذف شد";
             _carAppService.Delete(id); 
             return RedirectToAction("List"); 
         }
@@ -96,6 +105,7 @@ namespace AppEndPointMvc.Controllers
             var car = _carAppService.GetById(id); 
             if (car == null)
             {
+                TempData["Error"] = "خطا در نمایش خودرو: ";
                 return NotFound(); 
             }
 

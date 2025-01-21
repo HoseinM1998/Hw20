@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AppDomainCore.Dto;
 using AppDomainCore.Enum;
 
 namespace AppDomainCore.Contract.TechnicalExamination
@@ -10,6 +11,8 @@ namespace AppDomainCore.Contract.TechnicalExamination
     public interface ITechnicalExaminationRepository
     {
         public void Add(Entities.TechnicalExamination  technicalExamination);
+        public void Create(TechnicalAndCarDto technicalAndCar);
+
         public List<Entities.TechnicalExamination> GetAll();
         public  Entities.TechnicalExamination? GetByCarLicensePlate(string carLicensePlate);
         public Entities.TechnicalExamination? GetById(int id);

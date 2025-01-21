@@ -1,6 +1,7 @@
 ﻿using AppDomainCore.Contract.Car;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.TechnicalExamination;
+using AppDomainCore.Dto;
 using AppDomainCore.Entities;
 using AppDomainCore.Enum;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace AppEndPointMvc.Controllers
         private readonly ICarAppService _carAppService;
         private readonly ITechnicalExaminationAppService _techAppService;
         private readonly IOldCarAppService _oldcarAppService;
-  
+
 
         public TechnicalExaminationController(ICarAppService carAppService, ITechnicalExaminationAppService techAppService, IOldCarAppService oldcarAppService)
         {
@@ -24,38 +25,40 @@ namespace AppEndPointMvc.Controllers
 
         public IActionResult Create()
         {
-            try
-            {
-                var cars = _carAppService.GetCars();
+              var technicalAndCar = new TechnicalAndCarDto
+                {
+                    ModelCars = _carAppService.GetCars() 
+                };
 
-       
-                return View(cars);
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "خطا در نمایش لیست خودروها: " + ex.Message;
-                return RedirectToAction("List");
-            }
+                return View(technicalAndCar);
         }
 
         [HttpPost]
-        public IActionResult Create(TechnicalExamination technical)
+        public IActionResult Create(TechnicalAndCarDto technical)
         {
+            if (!ModelState.IsValid)
+            {
+                technical.ModelCars = _carAppService.GetCars();
+                ModelState.AddModelError(string.Empty, "فیلدها را به درستی پر کنید.");
+                return View(technical);
+            }
+
             try
             {
-                _techAppService.Add(technical);
-                TempData["Success"] = "درخواست شما با موفقیت ثبت شد";
-                return RedirectToAction("Index","Home");
+                _techAppService.Create(technical);
+                TempData["Success"] = "درخواست شما با موفقیت ثبت شد.";
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "خطا در ثبت معاینه فنی: " + ex.Message;
+                TempData["Error"] = "خطایی رخ داد. لطفاً دوباره تلاش کنید.";
                 return RedirectToAction("Create");
             }
         }
 
         public IActionResult List()
         {
+
             try
             {
                 var technical = _techAppService.GetAll();
@@ -71,16 +74,19 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult ChangeStatus(int id, StatusTechnicalExaminationEnum status)
         {
-            try
+            if (ModelState.IsValid)
             {
                 _techAppService.ChangeStatus(id, status);
                 TempData["Success"] = "وضعیت کاربر تغییر کرد";
+                return RedirectToAction("List");
             }
-            catch (Exception ex)
+            else
             {
-                TempData["Error"] = "خطا در تغییر وضعیت : " + ex.Message;
+                ModelState.AddModelError(string.Empty, "فیلد هارو درست پرکنید");
+                return RedirectToAction("List");
+
             }
-            return RedirectToAction("List");
+   
         }
 
         public IActionResult ListOldCar()
@@ -93,7 +99,7 @@ namespace AppEndPointMvc.Controllers
             catch (Exception ex)
             {
                 TempData["Error"] = "خطا در نمایش لیست : " + ex.Message;
-                return RedirectToAction("Create");
+                return RedirectToAction("Index","Home");
             }
         }
     }

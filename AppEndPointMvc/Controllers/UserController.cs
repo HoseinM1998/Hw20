@@ -24,7 +24,9 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
+
             var user = _userAppService.Login(userName, password);
+            TempData["Success"] = " وارد شدید ";
             return RedirectToAction("Index", "Home");
 
         }
@@ -37,13 +39,23 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
-            _userAppService.Register(user);
-            return RedirectToAction("index","Home");
+            if (ModelState.IsValid)
+            {
+                _userAppService.Register(user);
+                TempData["Success"] = " با موفقیت ثبت شد ";
+                return RedirectToAction("index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "فیلد هارو درست پرکنید");
+                return View(user);
+            }
         }
 
         public IActionResult Logout()
         {
             InMemory.CurentUser = null;
+            TempData["Success"] = " خارج شدید ";
             return RedirectToAction("index", "Home");
 
         }

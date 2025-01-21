@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppDomainCore.Contract.TechnicalExamination;
+using AppDomainCore.Dto;
 using AppDomainCore.Entities;
 using AppDomainCore.Enum;
 
@@ -32,6 +33,43 @@ namespace AppDomainAppService
                 throw new Exception("Error");
             }
         }
+
+        public void Create(TechnicalAndCarDto technicalAndCar)
+        {
+            try
+            {
+                var newTechnicalExamination = new TechnicalExamination
+                {
+                    FullName = technicalAndCar.FullName,
+                    Phone = technicalAndCar.Phone,
+                    NationalCode = technicalAndCar.NationalCode,
+                    CarLicensePlate = technicalAndCar.CarLicensePlate,
+                    YearProduction = technicalAndCar.YearProduction,
+                    Address = technicalAndCar.Address,
+                    CarId = technicalAndCar.CarId,
+                    AppointmentDate = technicalAndCar.AppointmentDate,
+                    RequestDate = DateTime.Now,
+                    Status = StatusTechnicalExaminationEnum.UnderReview
+                };
+                _techService.Add(newTechnicalExamination);
+            }
+            catch (Exception eX)
+            {
+                throw new Exception("Error");
+            }
+        }
+
+        //public void Create(TechnicalAndCarDto technicalAndCar)
+        //{
+        //    try
+        //    {
+        //        _techService.Create(technicalAndCar);
+        //    }
+        //    catch (Exception eX)
+        //    {
+        //        throw new Exception("Error");
+        //    }
+        //}
 
         public List<TechnicalExamination> GetAll()
         {

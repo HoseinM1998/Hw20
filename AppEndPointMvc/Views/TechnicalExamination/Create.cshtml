@@ -1,62 +1,60 @@
-﻿@model List<AppDomainCore.Entities.Car>
+﻿@model AppDomainCore.Dto.TechnicalAndCarDto
 
 
 
 <h2>فرم معاینه فنی</h2>
 
-@if (TempData["Success"] != null)
+<div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+<form method="post" asp-action="Create" asp-controller="TechnicalExamination">
+    
+    <div class="form-group">
+        <label class="form-label" asp-for="FullName"></label>
+        <input class="form-control" asp-for="FullName" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="form-label" asp-for="Phone"></label>
+        <input class="form-control" asp-for="Phone" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="form-label" asp-for="NationalCode"></label>
+        <input class="form-control" asp-for="NationalCode" />
+        <span asp-validation-for="NationalCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="form-label" asp-for="CarLicensePlate"></label>
+        <input class="form-control" asp-for="CarLicensePlate" />
+        <span asp-validation-for="CarLicensePlate" class="text-danger"></span>
 
-{
-    <div class="alert alert-primary" role="alert">
-        <samp>
-            @TempData["Success"].ToString();
-
-        </samp>
-    </div>
-}
-
-
-<form method="post">
-    <div class="form-group">
-        <label for="FullName">نام و نام خانوادگی</label>
-        <input type="text" class="form-control" id="FullName" name="FullName" required />
     </div>
     <div class="form-group">
-        <label for="Phone">تلفن همراه</label>
-        <input type="text" class="form-control" id="Phone" name="Phone" required />
+        <label class="form-label" asp-for="YearProduction"></label>
+        <input type="date" class="form-control" asp-for="YearProduction" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="YearProduction" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="NationalCode">کد ملی</label>
-        <input type="text" class="form-control" id="NationalCode" name="NationalCode" required />
-    </div>
-    <div class="form-group">
-        <label for="CarLicensePlate">پلاک خودرو</label>
-        <input type="text" class="form-control" id="CarLicensePlate" name="CarLicensePlate" required />
-    </div>
-    <div class="form-group">
-        <label for="YearProduction">سال تولید</label>
-        <input type="date" class="form-control" id="YearProduction" name="YearProduction" required />
-    </div>
-    <div class="form-group">
-        <label for="Address">آدرس</label>
-        <input type="text" class="form-control" id="Address" name="Address" required />
+        <label class="form-label" asp-for="Address"></label>
+        <input class="form-control" asp-for="Address" />
+        <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
-    <!-- انتخاب مدل خودرو -->
     <div class="form-group">
         <label for="CarId">مدل خودرو</label>
-        <select class="form-control" id="CarId" name="CarId" required>
+        <select class="form-control" asp-for="CarId">
             <option value="">انتخاب کنید</option>
-            @foreach (var car in Model)
+            @foreach (var car in Model.ModelCars)
             {
                 <option value="@car.Id">@car.Model</option>
             }
         </select>
+        <span asp-validation-for="CarId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="AppointmentDate">تاریخ نوبت</label>
-        <input type="date" class="form-control" id="AppointmentDate" name="AppointmentDate" required />
+        <label class="form-label" asp-for="AppointmentDate"></label>
+        <input type="date" class="form-control" asp-for="AppointmentDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-dark">ثبت معاینه</button>

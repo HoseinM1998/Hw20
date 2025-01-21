@@ -30,7 +30,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalExamination" asp-action="Create">ثبت معاینه فنی</a>
                         </li>
                         <li class="nav-item">
-                            @if (InMemory.CurentUser?.Role == RoleUserEnum.Admin) 
+                            @if (InMemory.CurentUser?.Role == RoleUserEnum.Admin)
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalExamination" asp-action="List">لیست درخواست‌ها</a>
                             }
@@ -61,6 +61,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
