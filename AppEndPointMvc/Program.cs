@@ -19,6 +19,7 @@ builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
 
+
 var saipa = builder.Configuration.GetSection("LimitData:Saipa").Value;
 var iranKhodro = builder.Configuration.GetSection("LimitData:IranKhodro").Value;
 builder.Services.AddSingleton(iranKhodro);

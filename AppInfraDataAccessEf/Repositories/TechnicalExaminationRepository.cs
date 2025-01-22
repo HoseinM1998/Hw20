@@ -30,23 +30,8 @@ namespace AppInfraDataAccessEf.Repositories
 
         public void Create(TechnicalAndCarDto technicalAndCar)
         {
-            var newTechnicalExamination = new TechnicalExamination
-            {
-                FullName = technicalAndCar.FullName,
-                Phone = technicalAndCar.Phone,
-                NationalCode = technicalAndCar.NationalCode,
-                CarLicensePlate = technicalAndCar.CarLicensePlate,
-                YearProduction = technicalAndCar.YearProduction,
-                Address = technicalAndCar.Address,
-                CarId = technicalAndCar.CarId,
-                AppointmentDate = technicalAndCar.AppointmentDate,
-                RequestDate = DateTime.Now,
-                Status = StatusTechnicalExaminationEnum.UnderReview
-            };
-            _context.TechnicalExaminations.Add(newTechnicalExamination);
-            _context.SaveChanges();
+            throw new NotImplementedException();
         }
-        
 
         public List<TechnicalExamination> GetAll()
         {

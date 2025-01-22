@@ -24,11 +24,16 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
+            if (userName == null  || password == null)
+            {
+                ModelState.AddModelError(string.Empty, "نام کاربری یا رمز عبور نادرست است");
+                return View();
+            }
 
             var user = _userAppService.Login(userName, password);
-            TempData["Success"] = " وارد شدید ";
-            return RedirectToAction("Index", "Home");
 
+            TempData["Success"] = "وارد شدید";
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()

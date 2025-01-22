@@ -28,7 +28,7 @@ namespace AppInfraDataAccessEf.Repositories
 
         public List<OldCar> GetAllOldCar()
         {
-            return _context.OldCars.AsNoTracking().ToList();
+            return _context.OldCars.Include(c =>c.Car).AsNoTracking().ToList();
 
         }
     }
