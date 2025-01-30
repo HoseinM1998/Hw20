@@ -9,6 +9,8 @@ namespace AppDomainCore.Entities.Config
     public class SiteSetting
     {
         public Connectionstring ConnectionString { get; set; }
+        public string ApiKey { get; set; }
+
         public LimitData LimitData { get; set; }
     }
     public class Connectionstring

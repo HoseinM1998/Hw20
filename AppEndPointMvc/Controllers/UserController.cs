@@ -24,18 +24,16 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            if (ModelState.IsValid)
+            var User = _userAppService.Login(user.UserName, user.Password);
+
+            if (User != null)
             {
-                var User = _userAppService.Login(user.UserName, user.Password);
-
-                if (User != null)
-                {
-                    TempData["Success"] = "وارد شدید";
-                    return RedirectToAction("Index", "Home");
-                }
-
-                ModelState.AddModelError(string.Empty, "نام کاربری یا رمز عبور نادرست است");
+                TempData["Success"] = "وارد شدید";
+                return RedirectToAction("Index", "Home");
             }
+
+            ModelState.AddModelError(string.Empty, "نام کاربری یا رمز عبور نادرست است");
+
             return View();
         }
 
@@ -47,17 +45,17 @@ namespace AppEndPointMvc.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
-            if (ModelState.IsValid)
+
+            _userAppService.Register(user);
+            if (User != null)
             {
-                _userAppService.Register(user);
                 TempData["Success"] = " با موفقیت ثبت شد ";
                 return RedirectToAction("index", "Home");
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "فیلد هارو درست پرکنید");
-                return View(user);
-            }
+
+            ModelState.AddModelError(string.Empty, "فیلد هارو درست پرکنید");
+            return View(user);
+
         }
 
         public IActionResult Logout()

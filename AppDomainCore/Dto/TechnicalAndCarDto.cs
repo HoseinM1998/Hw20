@@ -17,12 +17,13 @@ namespace AppDomainCore.Dto
 
         [Display(Name = "شماره تلفن")]
         [Required(ErrorMessage = "وارد کردن شماره تلفن اجباری است")]
-        [StringLength(11, ErrorMessage = "شماره تلفن11رقم است")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "شماره تلفن باید فقط شامل 11 رقم باشد")]
         public string Phone { get; set; }
 
         [Display(Name = "کدملی")]
         [Required(ErrorMessage = "وارد کردن کدملی اجباری است")]
-        [StringLength(10, ErrorMessage = "کد ملی 10رقم است")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "شماره تلفن باید فقط شامل 11 رقم باشد")]
+
         public string NationalCode { get; set; }
 
         [Display(Name = "شماره پلاک")]
