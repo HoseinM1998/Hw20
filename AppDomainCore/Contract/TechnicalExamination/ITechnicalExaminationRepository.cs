@@ -10,14 +10,14 @@ namespace AppDomainCore.Contract.TechnicalExamination
 {
     public interface ITechnicalExaminationRepository
     {
-        public void Add(Entities.TechnicalExamination  technicalExamination);
-        public void Create(TechnicalAndCarDto technicalAndCar);
+        Task Add(Entities.TechnicalExamination  technicalExamination, CancellationToken cancellationToken);
+        Task Create(TechnicalAndCarDto technicalAndCar, CancellationToken cancellationToken);
 
-        public List<Entities.TechnicalExamination> GetAll();
-        public  Entities.TechnicalExamination? GetByCarLicensePlate(string carLicensePlate);
-        public Entities.TechnicalExamination? GetById(int id);
-        public void ChangeStatus(int id, StatusTechnicalExaminationEnum status);
-        public int GetDailyCount(DateTime date, CompanyCarEnum company);
+        Task<List<Entities.TechnicalExamination>> GetAll( CancellationToken cancellationToken);
+        Task<Entities.TechnicalExamination?> GetByCarLicensePlate(string carLicensePlate, CancellationToken cancellationToken);
+        Task<Entities.TechnicalExamination?> GetById(int id, CancellationToken cancellationToken);
+        Task ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken);
+        Task<int> GetDailyCount(DateTime date, CompanyCarEnum company, CancellationToken cancellationToken);
 
     }
 }

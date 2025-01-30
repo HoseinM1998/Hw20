@@ -18,11 +18,11 @@ namespace AppDomainAppService
             _carService = carService;
         }
 
-        public List<OldCar> GetAllOldCars()
+        public async Task<List<OldCar>> GetAllOldCars(CancellationToken cancellationToken)
         {
             try
             {
-                return _carService.GetAllOldCar();
+                return await _carService.GetAllOldCar(cancellationToken);
             }
             catch (Exception ex)
             {

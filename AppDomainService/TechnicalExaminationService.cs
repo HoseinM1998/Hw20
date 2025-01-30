@@ -7,6 +7,7 @@ using AppDomainCore.Dto;
 using AppDomainCore.Entities;
 using AppDomainCore.Entities.Config;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 namespace AppDomainService
 {
     public class TechnicalExaminationService : ITechnicalExaminationService
@@ -20,25 +21,24 @@ namespace AppDomainService
 
 
 
-        public TechnicalExaminationService(ITechnicalExaminationRepository repository , IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar,IConfiguration configuration, SiteSetting siteSetting)
+        public TechnicalExaminationService(ITechnicalExaminationRepository repository, IOldCarRepository repositoryOldCAr, ICarRepository repositoryCar, IConfiguration configuration, SiteSetting siteSetting)
         {
             _repository = repository;
             _repositoryOldCAr = repositoryOldCAr;
             _repositoryCar = repositoryCar;
             _configuration = configuration;
             _siteSetting = siteSetting;
-
         }
 
-       
 
-        public void Add(TechnicalExamination technicalExamination)
+
+        public async Task Add(TechnicalExamination technicalExamination, CancellationToken cancellationToken)
         {
             if (technicalExamination == null)
             {
                 throw new Exception("User Not Found");
             }
-            if(technicalExamination.AppointmentDate<DateTime.Now)
+            if (technicalExamination.AppointmentDate < DateTime.Now)
             {
                 throw new Exception("The Date Must Be Up To Date");
 
@@ -58,21 +58,21 @@ namespace AppDomainService
                     RequestDate = DateTime.Now
                 };
 
-                _repositoryOldCAr.AddOldCAr(oldCar);
+                await _repositoryOldCAr.AddOldCAr(oldCar, cancellationToken);
                 return;
             }
             var dayOfWeek = technicalExamination.AppointmentDate.DayOfWeek;
-            var Enum = _repositoryCar.GetById(technicalExamination.CarId);
+            var Enum = await _repositoryCar.GetById(technicalExamination.CarId, cancellationToken);
             var Company = Enum.CarEnum;
 
-            if ((Company == CompanyCarEnum.IranKhodro && (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday )) ||
+            if ((Company == CompanyCarEnum.IranKhodro && (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday)) ||
                 (Company == CompanyCarEnum.Saipa && (dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Tuesday || dayOfWeek == DayOfWeek.Thursday)))
             {
                 throw new Exception("Invalid day for the selected");
             }
 
-            var car = _repository.GetByCarLicensePlate(technicalExamination.CarLicensePlate);
-           if (car != null)
+            var car = await _repository.GetByCarLicensePlate(technicalExamination.CarLicensePlate, cancellationToken);
+            if (car != null)
             {
                 if (car.AppointmentDate.AddYears(1) > DateTime.Now)
                 {
@@ -84,7 +84,7 @@ namespace AppDomainService
             var saipa = int.Parse(_configuration.GetSection("LimitData:Saipa").Value);
             var iranKhodro = int.Parse(_configuration.GetSection("LimitData:IranKhodro").Value);
 
-            var dailyCount = _repository.GetDailyCount(technicalExamination.AppointmentDate, Company);
+            var dailyCount = await _repository.GetDailyCount(technicalExamination.AppointmentDate, Company, cancellationToken);
 
             if ((Company == CompanyCarEnum.Saipa && dailyCount >= saipa) ||
                 (Company == CompanyCarEnum.IranKhodro && dailyCount >= iranKhodro))
@@ -110,24 +110,24 @@ namespace AppDomainService
 
             technicalExamination.RequestDate = DateTime.Now;
             technicalExamination.Status = StatusTechnicalExaminationEnum.UnderReview;
-            _repository.Add(technicalExamination);
+            await _repository.Add(technicalExamination, cancellationToken);
 
         }
 
-        public List<TechnicalExamination> GetAll()
+        public async Task<List<TechnicalExamination>> GetAll(CancellationToken cancellationToken)
         {
-            return _repository.GetAll();
+            return await _repository.GetAll(cancellationToken);
         }
 
-        public void Create(TechnicalAndCarDto technicalAndCar)
+        public async Task Create(TechnicalAndCarDto technicalAndCar, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
 
-        public TechnicalExamination? GetByCarLicensePlate(string carLicensePlate)
+        public async Task<TechnicalExamination?> GetByCarLicensePlate(string carLicensePlate, CancellationToken cancellationToken)
         {
-            var carLicensePlat = _repository.GetByCarLicensePlate(carLicensePlate);
+            var carLicensePlat = await _repository.GetByCarLicensePlate(carLicensePlate, cancellationToken);
             if (carLicensePlat == null)
             {
                 throw new Exception("carLicensePlate Not Found");
@@ -136,9 +136,9 @@ namespace AppDomainService
             return carLicensePlat;
         }
 
-        public TechnicalExamination? GetById(int id)
+        public async Task<TechnicalExamination?> GetById(int id, CancellationToken cancellationToken)
         {
-            var technicalExamination = _repository.GetById(id);
+            var technicalExamination = await _repository.GetById(id, cancellationToken);
             if (technicalExamination == null)
             {
                 throw new Exception("technicalExamination Not Found");
@@ -147,14 +147,14 @@ namespace AppDomainService
             return technicalExamination;
         }
 
-        public void ChangeStatus(int id, StatusTechnicalExaminationEnum status)
+        public async Task ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken)
         {
-            var tech = _repository.GetById(id);
-            if(tech == null)
+            var tech = await _repository.GetById(id, cancellationToken);
+            if (tech == null)
             {
                 throw new Exception("technicalExamination Not Found");
             }
-            _repository.ChangeStatus(id,status);
+            await _repository.ChangeStatus(id, status, cancellationToken);
 
         }
 

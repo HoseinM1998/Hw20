@@ -8,8 +8,8 @@ namespace AppDomainCore.Contract.User
 {
     public interface IUserRepository
     {
-        public void Add(Entities.User user);
-        public Entities.User? GetById(int id);
-        public Entities.User? GetByUserName(string userName);
+        Task Add(Entities.User user, CancellationToken cancellationToken);
+        Task<Entities.User?> GetById(int id, CancellationToken cancellationToken);
+        Task<Entities.User?> GetByUserName(string userName, CancellationToken cancellationToken);
     }
 }

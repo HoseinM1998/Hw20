@@ -10,13 +10,13 @@ namespace AppDomainCore.Contract.TechnicalExamination
 {
     public interface ITechnicalExaminationService
     {
-        public void Add(Entities.TechnicalExamination technicalExamination);
-        public List<Entities.TechnicalExamination> GetAll();
-        public void Create(TechnicalAndCarDto technicalAndCar);
+        Task Add(Entities.TechnicalExamination technicalExamination, CancellationToken cancellationToken);
+        Task<List<Entities.TechnicalExamination>> GetAll( CancellationToken cancellationToken);
+        Task Create(TechnicalAndCarDto technicalAndCar, CancellationToken cancellationToken);
 
-        public Entities.TechnicalExamination? GetByCarLicensePlate(string carLicensePlate);
-        public Entities.TechnicalExamination? GetById(int id);
-        public void ChangeStatus(int id, StatusTechnicalExaminationEnum status);
+        Task<Entities.TechnicalExamination?> GetByCarLicensePlate(string carLicensePlate, CancellationToken cancellationToken);
+        Task<Entities.TechnicalExamination?> GetById(int id, CancellationToken cancellationToken);
+        Task ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken);
 
     }
 }

@@ -13,26 +13,26 @@ namespace AppEndPointMvc.Controllers
             _carAppService = carAppService;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List(CancellationToken cancellationToken)
         {
-            var cars = _carAppService.GetCars(); 
+            var cars =await _carAppService.GetCars(cancellationToken); 
             return View(cars); 
         }
 
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
             return View(new Car());
         }
 
 
         [HttpPost]
-        public IActionResult Create(Car car)
+        public async Task<IActionResult> Create(Car car, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
                 TempData["Success"] = " ادد شما با موفقیت ثبت شد";
-                _carAppService.Create(car); 
+               await _carAppService.Create(car, cancellationToken); 
                 return RedirectToAction("List");
             }
             else
@@ -45,9 +45,9 @@ namespace AppEndPointMvc.Controllers
         }
 
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id,CancellationToken cancellationToken)
         {
-            var car = _carAppService.GetById(id); 
+            var car =await _carAppService.GetById(id, cancellationToken); 
             if (car == null)
             {
                 TempData["Error"] = "خطا در نمایش خودرو: ";
@@ -58,11 +58,11 @@ namespace AppEndPointMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, Car car)
+        public async Task<IActionResult> Edit(int id, Car car, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                var existingCar = _carAppService.GetById(id);
+                var existingCar =await _carAppService.GetById(id, cancellationToken);
                 if (existingCar == null)
                 {
                     TempData["Error"] = "خطا دراویرایش خودرو: ";
@@ -70,7 +70,7 @@ namespace AppEndPointMvc.Controllers
                 }
 
                 TempData["Success"] = " ادیت شما با موفقیت ثبت شد";
-                _carAppService.Update(id, car);
+                await _carAppService.Update(id, car, cancellationToken);
                 return RedirectToAction("List"); 
             }
 
@@ -78,9 +78,9 @@ namespace AppEndPointMvc.Controllers
         }
 
 
-        public IActionResult CarDelete(int id)
+        public async Task<IActionResult> CarDelete(int id, CancellationToken cancellationToken)
         {
-            var car = _carAppService.GetById(id); 
+            var car =await _carAppService.GetById(id, cancellationToken); 
             if (car == null)
             {
                 TempData["Error"] = "خطا در نمایش خودرو: ";
@@ -92,17 +92,17 @@ namespace AppEndPointMvc.Controllers
 
  
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             TempData["Success"] = "خودرو با موفقیت حذف شد";
-            _carAppService.Delete(id); 
+            await _carAppService.Delete(id, cancellationToken); 
             return RedirectToAction("List"); 
         }
 
    
-        public IActionResult About(int id)
+        public async Task<IActionResult> About(int id, CancellationToken cancellationToken)
         {
-            var car = _carAppService.GetById(id); 
+            var car =await _carAppService.GetById(id, cancellationToken); 
             if (car == null)
             {
                 TempData["Error"] = "خطا در نمایش خودرو: ";

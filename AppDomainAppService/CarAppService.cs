@@ -18,11 +18,11 @@ namespace AppDomainAppService
             _carService = carService;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id, CancellationToken cancellationToken)
         {
             try
             {
-               _carService.Delete(id);
+              await _carService.Delete(id, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -30,11 +30,11 @@ namespace AppDomainAppService
             }
         }
 
-        public Car? GetById(int id)
+        public async Task<Car?> GetById(int id, CancellationToken cancellationToken)
         {
             try
             {
-               return _carService.GetById(id);
+               return await _carService.GetById(id, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -42,11 +42,11 @@ namespace AppDomainAppService
             }
         }
 
-        public void Create(Car car)
+        public async Task Create(Car car, CancellationToken cancellationToken)
         {
             try
             {
-               _carService.Add(car);
+              await _carService.Add(car, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -54,11 +54,11 @@ namespace AppDomainAppService
             }
         }
 
-        public List<Car> GetCars()
+        public async Task<List<Car>> GetCars(CancellationToken cancellationToken)
         {
             try
             {
-               return _carService.GetCars();
+               return await _carService.GetCars(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -66,11 +66,11 @@ namespace AppDomainAppService
             }
         }
 
-        public void Update(int id, Car car)
+        public async Task Update(int id, Car car, CancellationToken cancellationToken)
         {
             try
             {
-                _carService.Update(id,car);
+               await _carService.Update(id,car, cancellationToken);
             }
             catch (Exception ex)
             {

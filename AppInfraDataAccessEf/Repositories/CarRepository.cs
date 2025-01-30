@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AppDomainCore.Contract.Car;
 using AppDomainCore.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace AppInfraDataAccessEf.Repositories
 {
@@ -19,40 +20,40 @@ namespace AppInfraDataAccessEf.Repositories
             _context = context;
         }
 
-        public void Add(Car car)
+        public async Task Add(Car car, CancellationToken cancellationToken)
         {
-            _context.Cars.Add(car);
-            _context.SaveChanges();
+           await _context.Cars.AddAsync(car, cancellationToken);
+           await _context.SaveChangesAsync(cancellationToken);
 
         }
-        public void Delete(int id)
+        public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var car = _context.Cars.FirstOrDefault(p => p.Id == id);
+            var car =await _context.Cars.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             if (car != null)
             {
                 _context.Cars.Remove(car);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync(cancellationToken);
             }
         }
 
-        public Car? GetById(int id)
+        public async Task<Car?> GetById(int id, CancellationToken cancellationToken)
         {
-            return _context.Cars.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            return await _context.Cars.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
         }
 
-        public List<Car> GetCars()
+        public async Task<List<Car>> GetCars(CancellationToken cancellationToken)
         {
-            return _context.Cars.AsNoTracking().ToList();
+            return await _context.Cars.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public void Update(int id, Car car)
+        public async Task Update(int id, Car car, CancellationToken cancellationToken)
         {
-            var updateCar = _context.Cars.Find(id);
+            var updateCar =await _context.Cars.FindAsync(id, cancellationToken);
             if (updateCar != null)
             {
                 updateCar.Model = car.Model;
                 updateCar.CarEnum = car.CarEnum;
-                _context.SaveChanges();
+               await _context.SaveChangesAsync(cancellationToken);
             }
         }
     }

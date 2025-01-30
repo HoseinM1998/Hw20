@@ -18,11 +18,11 @@ namespace AppDomainAppService
             _userService = userService;
         }
 
-        public User Register(User user)
+        public async Task<User> Register(User user,CancellationToken cancellationToken)
         {
             try
             {
-                _userService.Add(user);
+                await _userService.Add(user, cancellationToken);
                 return user;
             }
             catch (Exception ex)
@@ -31,9 +31,9 @@ namespace AppDomainAppService
             }
         }
 
-        public bool Login(string username, string password)
+        public async Task<bool> Login(string username, string password, CancellationToken cancellationToken)
         {
-            var user = _userService.GetByUserName(username);
+            var user =await _userService.GetByUserName(username, cancellationToken);
             if (user == null)
             {
                 return false;

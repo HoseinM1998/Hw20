@@ -25,33 +25,33 @@ namespace AppEndPointApi.Controllers
         }
 
         [HttpGet("cars")]
-        public IActionResult GetCars( )
+        public async Task<IActionResult> GetCars(CancellationToken cancellationToken)
         {
             var technicalAndCar = new TechnicalAndCarDto
             {
-                ModelCars = _carAppService.GetCars()
+                ModelCars = await _carAppService.GetCars(cancellationToken)
             };
 
-           return Ok(technicalAndCar);  
+            return Ok(technicalAndCar);
         }
 
 
         [HttpPost("create")]
-        public IActionResult CreateTechnicalExamination([FromBody] TechnicalAndCarDto technical)
+        public async Task<IActionResult> CreateTechnicalExamination([FromBody] TechnicalAndCarDto technical, CancellationToken cancellationToken)
         {
 
             if (!ModelState.IsValid)
-                return BadRequest(ModelState); 
-            _techAppService.Create(technical);
+                return BadRequest(ModelState);
+            await _techAppService.Create(technical, cancellationToken);
             return Ok("درخواست شما با موفقیت ثبت شد");
         }
 
         [HttpGet("list")]
-        public IActionResult GetTechnicalExaminations()
+        public async Task<IActionResult> GetTechnicalExaminations(CancellationToken cancellationToken)
         {
             try
             {
-                var technicals = _techAppService.GetAll();
+                var technicals = await _techAppService.GetAll(cancellationToken);
                 if (technicals == null || !technicals.Any())
                 {
                     return NotFound("هیچ آزمایش فنی یافت نشد.");
@@ -65,19 +65,19 @@ namespace AppEndPointApi.Controllers
         }
 
         [HttpPost("changestatus/{id}")]
-        public IActionResult ChangeStatus(int id, [FromBody] StatusTechnicalExaminationEnum status)
+        public async Task<IActionResult> ChangeStatus(int id, [FromBody] StatusTechnicalExaminationEnum status, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
 
-            _techAppService.ChangeStatus(id, status);
+            await _techAppService.ChangeStatus(id, status, cancellationToken);
             return Ok("وضعیت با موفقیت تغییر کرد.");
         }
 
         [HttpGet("oldcars")]
-        public IActionResult GetOldCars()
+        public async Task<IActionResult> GetOldCars(CancellationToken cancellationToken)
         {
-            var oldCars = _oldcarAppService.GetAllOldCars();
+            var oldCars = await _oldcarAppService.GetAllOldCars(cancellationToken);
             return Ok(oldCars);
         }
     }

@@ -20,12 +20,12 @@ namespace AppDomainAppService
             _techService = techService;
         }
 
-        public void Add(TechnicalExamination technicalExamination)
+        public async Task Add(TechnicalExamination technicalExamination, CancellationToken cancellationToken)
         {
             try
             {
 
-                _techService.Add(technicalExamination);
+                await _techService.Add(technicalExamination, cancellationToken);
 
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace AppDomainAppService
             }
         }
 
-        public void Create(TechnicalAndCarDto technicalAndCar)
+        public async Task Create(TechnicalAndCarDto technicalAndCar, CancellationToken cancellationToken)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace AppDomainAppService
                     RequestDate = DateTime.Now,
                     Status = StatusTechnicalExaminationEnum.UnderReview
                 };
-                _techService.Add(newTechnicalExamination);
+               await _techService.Add(newTechnicalExamination, cancellationToken);
             }
             catch (Exception eX)
             {
@@ -71,11 +71,11 @@ namespace AppDomainAppService
         //    }
         //}
 
-        public List<TechnicalExamination> GetAll()
+        public async Task<List<TechnicalExamination>> GetAll(CancellationToken cancellationToken)
         {
             try
             {
-                return _techService.GetAll();
+                return await _techService.GetAll(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -83,11 +83,11 @@ namespace AppDomainAppService
             }
         }
 
-        public TechnicalExamination? GetByCarLicensePlate(string carLicensePlate)
+        public async Task<TechnicalExamination?> GetByCarLicensePlate(string carLicensePlate, CancellationToken cancellationToken)
         {
             try
             {
-                return _techService.GetByCarLicensePlate(carLicensePlate);
+                return await _techService.GetByCarLicensePlate(carLicensePlate, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -95,11 +95,11 @@ namespace AppDomainAppService
             }
         }
 
-        public void ChangeStatus(int id, StatusTechnicalExaminationEnum status)
+        public async Task ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken)
         {
             try
             {
-                _techService.ChangeStatus(id, status);
+              await  _techService.ChangeStatus(id, status, cancellationToken);
             }
             catch (Exception ex)
             {

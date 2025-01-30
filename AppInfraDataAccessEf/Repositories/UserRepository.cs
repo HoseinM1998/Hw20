@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AppDomainCore.Contract.User;
 using AppDomainCore.Entities;
@@ -18,20 +19,20 @@ namespace AppInfraDataAccessEf.Repositories
         {
             _context = context;
         }
-        public void Add(User user)
+        public async Task Add(User user, CancellationToken cancellationToken)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user, cancellationToken);
+           await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public User? GetById(int id)
+        public async Task<User?> GetById(int id,CancellationToken cancellationToken)
         {
-            return _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
         }
 
-        public User? GetByUserName(string userName)
+        public async Task<User?> GetByUserName(string userName,CancellationToken cancellationToken)
         {
-            return _context.Users.AsNoTracking().FirstOrDefault(u => u.UserName == userName);
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == userName, cancellationToken);
 
         }
     }

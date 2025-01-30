@@ -19,34 +19,34 @@ namespace AppDomainService
             _repository = repository;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id, cancellationToken);
         }
 
-        public Car? GetById(int id)
+        public async Task<Car?> GetById(int id, CancellationToken cancellationToken)
         {
-           return _repository.GetById(id);
+            return await _repository.GetById(id, cancellationToken);
         }
 
-        public void Add(Car car)
+        public async Task Add(Car car, CancellationToken cancellationToken)
         {
             if (car == null)
             {
                 throw new Exception("Error NotNull");
 
             }
-            _repository.Add(car);
+            await _repository.Add(car, cancellationToken);
         }
 
-        public List<Car> GetCars()
+        public async Task<List<Car>> GetCars(CancellationToken cancellationToken)
         {
-           return _repository.GetCars();
+            return await _repository.GetCars(cancellationToken);
         }
 
-        public void Update(int id, Car car)
+        public async Task Update(int id, Car car, CancellationToken cancellationToken)
         {
-            _repository.Update(id, car);
+           await _repository.Update(id, car, cancellationToken);
         }
     }
 }

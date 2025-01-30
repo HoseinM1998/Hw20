@@ -8,8 +8,8 @@ namespace AppDomainCore.Contract.User
 {
     public interface IUserAppService
     {
-        public Entities.User Register(Entities.User user);
-        public bool Login(string username, string password);
+        Task<Entities.User> Register(Entities.User user, CancellationToken cancellationToken);
+        Task<bool> Login(string username, string password, CancellationToken cancellationToken);
         public void Logout();
     }
 }

@@ -19,16 +19,16 @@ namespace AppInfraDataAccessEf.Repositories
         {
             _context = context;
         }
-        public void AddOldCAr(OldCar oldCar)
+        public async Task AddOldCAr(OldCar oldCar, CancellationToken cancellationToken)
         {
-            _context.OldCars.Add(oldCar);
-            _context.SaveChanges();
+            await _context.OldCars.AddAsync(oldCar, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
 
-        public List<OldCar> GetAllOldCar()
+        public async Task<List<OldCar>> GetAllOldCar(CancellationToken cancellationToken)
         {
-            return _context.OldCars.Include(c =>c.Car).AsNoTracking().ToList();
+            return await _context.OldCars.Include(c =>c.Car).AsNoTracking().ToListAsync(cancellationToken);
 
         }
     }

@@ -4,6 +4,7 @@ using AppDomainCore.Entities;
 using AppDomainService;
 using AppInfraDbInMemory;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace AppEndPointMvc.Controllers
 {
@@ -16,15 +17,15 @@ namespace AppEndPointMvc.Controllers
             _userAppService = userAppService;
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public async Task<IActionResult> Login(User user,CancellationToken cancellationToken)
         {
-            var User = _userAppService.Login(user.UserName, user.Password);
+            var User =await _userAppService.Login(user.UserName, user.Password, cancellationToken);
 
             if (User != null)
             {
@@ -37,16 +38,16 @@ namespace AppEndPointMvc.Controllers
             return View();
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View(new User());
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public async Task<IActionResult> Register(User user,CancellationToken cancellationToken)
         {
 
-            _userAppService.Register(user);
+           await _userAppService.Register(user, cancellationToken);
             if (User != null)
             {
                 TempData["Success"] = " با موفقیت ثبت شد ";

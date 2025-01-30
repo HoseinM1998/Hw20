@@ -18,7 +18,7 @@ namespace AppDomainService
         {
             _repository = repository;
         }
-        public void Add(User user)
+        public async Task Add(User user,CancellationToken cancellationToken)
         {
             bool isSpecial = user.Password.Any(s => (s >= 33 && s <= 47) || s == 64);
 
@@ -27,7 +27,7 @@ namespace AppDomainService
                 throw new Exception("Password > 4 Char And One Special Character");
             }
 
-            var userNa = _repository.GetByUserName(user.UserName);
+            var userNa =await _repository.GetByUserName(user.UserName, cancellationToken);
             if (userNa != null)
             {
                 throw new Exception("Existing UserName");
@@ -39,12 +39,12 @@ namespace AppDomainService
             }
 
             user.Role = RoleUserEnum.User;
-            _repository.Add(user);
+            await _repository.Add(user, cancellationToken);
         }
 
-        public User? GetById(int id)
+        public async Task<User?> GetById(int id,CancellationToken cancellationToken)
         {
-            var user = _repository.GetById(id);
+            var user =await _repository.GetById(id, cancellationToken);
             if (user == null)
             {
                 throw new Exception("User Not Found");
@@ -53,9 +53,9 @@ namespace AppDomainService
             return user;
         }
 
-        public User? GetByUserName(string userName)
+        public async Task<User?> GetByUserName(string userName,CancellationToken cancellationToken)
         {
-            var user = _repository.GetByUserName(userName);
+            var user =await _repository.GetByUserName(userName, cancellationToken);
             if (user == null)
             {
                 throw new Exception("User Not Found");

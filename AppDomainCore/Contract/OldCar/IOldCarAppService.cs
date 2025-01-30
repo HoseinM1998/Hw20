@@ -8,6 +8,6 @@ namespace AppDomainCore.Contract.OldCar
 {
     public interface IOldCarAppService
     {
-        public List<Entities.OldCar> GetAllOldCars();
+        Task<List<Entities.OldCar>> GetAllOldCars(CancellationToken cancellationToken);
     }
 }

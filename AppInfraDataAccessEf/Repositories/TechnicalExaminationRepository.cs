@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AppDomainCore.Contract.TechnicalExamination;
 using AppDomainCore.Dto;
@@ -22,48 +23,47 @@ namespace AppInfraDataAccessEf.Repositories
         }
 
 
-        public void Add(TechnicalExamination technicalExamination)
+        public async Task Add(TechnicalExamination technicalExamination, CancellationToken cancellationToken)
         {
-            _context.TechnicalExaminations.Add(technicalExamination);
-            _context.SaveChanges();
+            await _context.TechnicalExaminations.AddAsync(technicalExamination, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public void Create(TechnicalAndCarDto technicalAndCar)
+        public async Task Create(TechnicalAndCarDto technicalAndCar,CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public List<TechnicalExamination> GetAll()
+        public async Task<List<TechnicalExamination>> GetAll(CancellationToken cancellationToken)
         {
-            return _context.TechnicalExaminations.Include(C => C.Car).AsNoTracking().ToList();
+            return await _context.TechnicalExaminations.Include(C => C.Car).AsNoTracking().ToListAsync();
 
         }
 
-        public TechnicalExamination? GetByCarLicensePlate(string carLicensePlate)
+        public async Task<TechnicalExamination?> GetByCarLicensePlate(string carLicensePlate,CancellationToken cancellationToken)
         {
-            return _context.TechnicalExaminations.AsNoTracking().FirstOrDefault(u => u.CarLicensePlate == carLicensePlate);
+            return await _context.TechnicalExaminations.AsNoTracking().FirstOrDefaultAsync(u => u.CarLicensePlate == carLicensePlate, cancellationToken);
+        }
+
+        public async Task<TechnicalExamination?> GetById(int id,CancellationToken cancellationToken)
+        {
+            return await _context.TechnicalExaminations.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
         }
 
-        public TechnicalExamination? GetById(int id)
+        public async Task ChangeStatus(int id, StatusTechnicalExaminationEnum status,CancellationToken cancellationToken)
         {
-            return _context.TechnicalExaminations.AsNoTracking().FirstOrDefault(u => u.Id == id);
-
-        }
-
-        public void ChangeStatus(int id,StatusTechnicalExaminationEnum status)
-        {
-            var changestatus = _context.TechnicalExaminations.Find(id);
+            var changestatus =await _context.TechnicalExaminations.FindAsync(id, cancellationToken);
             changestatus.Status = status;
-            _context.SaveChanges();
-            
+            await _context.SaveChangesAsync(cancellationToken);
+
         }
 
-        public int GetDailyCount(DateTime date, CompanyCarEnum company)
+        public async Task<int> GetDailyCount(DateTime date, CompanyCarEnum company,CancellationToken cancellationToken)
         {
-            return _context.TechnicalExaminations
+            return await _context.TechnicalExaminations
                 .Where(t => t.AppointmentDate.Date == date.Date && t.Car.CarEnum == company)
-                .Count();
+                .CountAsync(cancellationToken);
         }
     }
 }

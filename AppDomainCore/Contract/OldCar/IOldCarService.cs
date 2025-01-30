@@ -8,7 +8,7 @@ namespace AppDomainCore.Contract.OldCar
 {
     public interface IOldCarService
     {
-        public List<Entities.OldCar> GetAllOldCar();
-        public void AddOldCAr(Entities.OldCar oldCar);
+        Task<List<Entities.OldCar>> GetAllOldCar(CancellationToken cancellationToken);
+        Task AddOldCAr(Entities.OldCar oldCar, CancellationToken cancellationToken);
     }
 }

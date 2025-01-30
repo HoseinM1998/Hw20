@@ -23,29 +23,29 @@ namespace AppEndPointMvc.Controllers
 
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
               var technicalAndCar = new TechnicalAndCarDto
                 {
-                    ModelCars = _carAppService.GetCars() 
+                    ModelCars =await _carAppService.GetCars(cancellationToken) 
                 };
 
                 return View(technicalAndCar);
         }
 
         [HttpPost]
-        public IActionResult Create(TechnicalAndCarDto technical)
+        public async Task<IActionResult> Create(TechnicalAndCarDto technical, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
-                technical.ModelCars = _carAppService.GetCars();
+                technical.ModelCars =await _carAppService.GetCars(cancellationToken);
                 ModelState.AddModelError(string.Empty, "فیلدها را به درستی پر کنید.");
                 return View(technical);
             }
 
             try
             {
-                _techAppService.Create(technical);
+                await _techAppService.Create(technical, cancellationToken);
                 TempData["Success"] = "درخواست شما با موفقیت ثبت شد.";
                 return RedirectToAction("Index", "Home");
             }
@@ -56,12 +56,12 @@ namespace AppEndPointMvc.Controllers
             }
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List(CancellationToken cancellationToken)
         {
 
             try
             {
-                var technical = _techAppService.GetAll();
+                var technical =await _techAppService.GetAll(cancellationToken);
                 return View(technical);
             }
             catch (Exception ex)
@@ -72,11 +72,11 @@ namespace AppEndPointMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeStatus(int id, StatusTechnicalExaminationEnum status)
+        public async Task<IActionResult> ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                _techAppService.ChangeStatus(id, status);
+               await _techAppService.ChangeStatus(id, status, cancellationToken);
                 TempData["Success"] = "وضعیت کاربر تغییر کرد";
                 return RedirectToAction("List");
             }
@@ -89,11 +89,11 @@ namespace AppEndPointMvc.Controllers
    
         }
 
-        public IActionResult ListOldCar()
+        public async Task<IActionResult> ListOldCar(CancellationToken cancellationToken)
         {
             try
             {
-                var oldCAr = _oldcarAppService.GetAllOldCars();
+                var oldCAr =await _oldcarAppService.GetAllOldCars(cancellationToken);
                 return View(oldCAr);
             }
             catch (Exception ex)

@@ -18,17 +18,17 @@ namespace AppDomainService
         {
             _repository = repository;
         }
-        public void AddOldCAr(OldCar oldCar)
+        public async Task AddOldCAr(OldCar oldCar,CancellationToken cancellationToken)
         {
             if (oldCar != null)
             {
-                _repository.AddOldCAr(oldCar);
+               await _repository.AddOldCAr(oldCar, cancellationToken);
             }
         }
 
-        public List<OldCar> GetAllOldCar()
+        public async Task<List<OldCar>> GetAllOldCar(CancellationToken cancellationToken)
         {
-           return _repository.GetAllOldCar();
+           return await _repository.GetAllOldCar(cancellationToken);
         }
     }
 }
