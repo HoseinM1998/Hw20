@@ -3,10 +3,12 @@ using AppDomainCore.Contract.Car;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.TechnicalExamination;
 using AppDomainCore.Contract.User;
+using AppDomainCore.Entities;
 using AppDomainCore.Entities.Config;
 using AppDomainService;
 using AppInfraDataAccessEf.Repositories;
 using AppInfraDbSqlServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 internal class Program
@@ -54,6 +56,12 @@ internal class Program
         builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+
+        //builder.Services.AddIdentity<User, IdentityRole>()
+        //    .AddRoles<IdentityRole<int>>()
+        //    .AddEntityFrameworkStores<AppDbContext>()
+        //    ;
+
 
         var app = builder.Build();
 

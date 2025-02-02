@@ -1,4 +1,5 @@
-﻿@using AppDomainCore.Enum
+﻿@using AppDomainCore.Entities
+@using AppDomainCore.Enum
 @using AppInfraDbInMemory
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
@@ -30,10 +31,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalExamination" asp-action="Create">ثبت معاینه فنی</a>
                         </li>
                         <li class="nav-item">
-                            @if (InMemory.CurentUser?.Role == RoleUserEnum.Admin)
-                            {
+                           
                                 <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalExamination" asp-action="List">لیست درخواست‌ها</a>
-                            }
+                            
                         </li>
 
                         <li class="nav-item">

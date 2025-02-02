@@ -4,6 +4,8 @@ using AppDomainCore.Contract.TechnicalExamination;
 using AppDomainCore.Dto;
 using AppDomainCore.Entities;
 using AppDomainCore.Enum;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppEndPointMvc.Controllers
@@ -13,24 +15,26 @@ namespace AppEndPointMvc.Controllers
         private readonly ICarAppService _carAppService;
         private readonly ITechnicalExaminationAppService _techAppService;
         private readonly IOldCarAppService _oldcarAppService;
+        private readonly UserManager<User> _userManager;
 
 
-        public TechnicalExaminationController(ICarAppService carAppService, ITechnicalExaminationAppService techAppService, IOldCarAppService oldcarAppService)
+        public TechnicalExaminationController(ICarAppService carAppService, ITechnicalExaminationAppService techAppService, IOldCarAppService oldcarAppService, UserManager<User> userManager)
         {
             _carAppService = carAppService;
             _techAppService = techAppService;
             _oldcarAppService = oldcarAppService;
+            _userManager = userManager;
 
         }
 
         public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
-              var technicalAndCar = new TechnicalAndCarDto
-                {
-                    ModelCars =await _carAppService.GetCars(cancellationToken) 
-                };
+            var technicalAndCar = new TechnicalAndCarDto
+            {
+                ModelCars = await _carAppService.GetCars(cancellationToken)
+            };
 
-                return View(technicalAndCar);
+            return View(technicalAndCar);
         }
 
         [HttpPost]
@@ -38,7 +42,7 @@ namespace AppEndPointMvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                technical.ModelCars =await _carAppService.GetCars(cancellationToken);
+                technical.ModelCars = await _carAppService.GetCars(cancellationToken);
                 ModelState.AddModelError(string.Empty, "فیلدها را به درستی پر کنید.");
                 return View(technical);
             }
@@ -56,12 +60,19 @@ namespace AppEndPointMvc.Controllers
             }
         }
 
+
         public async Task<IActionResult> List(CancellationToken cancellationToken)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.RoleId != 1)  
+            {
+                TempData["Error"] = "شما دسترسی لازم را ندارید.";
+                return RedirectToAction("Index", "Home");
+            }
 
             try
             {
-                var technical =await _techAppService.GetAll(cancellationToken);
+                var technical = await _techAppService.GetAll(cancellationToken);
                 return View(technical);
             }
             catch (Exception ex)
@@ -71,12 +82,15 @@ namespace AppEndPointMvc.Controllers
             }
         }
 
+
+
+
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(int id, StatusTechnicalExaminationEnum status, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-               await _techAppService.ChangeStatus(id, status, cancellationToken);
+                await _techAppService.ChangeStatus(id, status, cancellationToken);
                 TempData["Success"] = "وضعیت کاربر تغییر کرد";
                 return RedirectToAction("List");
             }
@@ -86,20 +100,20 @@ namespace AppEndPointMvc.Controllers
                 return RedirectToAction("List");
 
             }
-   
+
         }
 
         public async Task<IActionResult> ListOldCar(CancellationToken cancellationToken)
         {
             try
             {
-                var oldCAr =await _oldcarAppService.GetAllOldCars(cancellationToken);
+                var oldCAr = await _oldcarAppService.GetAllOldCars(cancellationToken);
                 return View(oldCAr);
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "خطا در نمایش لیست : " + ex.Message;
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
         }
     }

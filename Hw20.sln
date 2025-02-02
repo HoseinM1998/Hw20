@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEndPointMvc", "AppEndPoi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEndPointApi", "AppEndPointApi\AppEndPointApi.csproj", "{69EDE711-F7FB-4C34-AC18-F082163E58A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEnpointMvc.Identity.UI", "AppEnpointMvc.Identity.UI\AppEnpointMvc.Identity.UI.csproj", "{C628EBEA-EFF0-4735-8A43-EA3001BE173B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{69EDE711-F7FB-4C34-AC18-F082163E58A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69EDE711-F7FB-4C34-AC18-F082163E58A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69EDE711-F7FB-4C34-AC18-F082163E58A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C628EBEA-EFF0-4735-8A43-EA3001BE173B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C628EBEA-EFF0-4735-8A43-EA3001BE173B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C628EBEA-EFF0-4735-8A43-EA3001BE173B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C628EBEA-EFF0-4735-8A43-EA3001BE173B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +93,6 @@ Global
 		{4983CF6A-8A33-46AE-8019-1E1CC868B15E} = {DD4364A1-C17A-4764-B464-9681A459BB4C}
 		{BA39750D-F267-4B7E-AE0E-0116813906B4} = {A8C6DDE6-FC75-4DAA-859B-39F3701DB10A}
 		{69EDE711-F7FB-4C34-AC18-F082163E58A5} = {A8C6DDE6-FC75-4DAA-859B-39F3701DB10A}
+		{C628EBEA-EFF0-4735-8A43-EA3001BE173B} = {A8C6DDE6-FC75-4DAA-859B-39F3701DB10A}
 	EndGlobalSection
 EndGlobal

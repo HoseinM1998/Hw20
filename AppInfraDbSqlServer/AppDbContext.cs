@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AppInfraDbSqlServer
 {
     
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User,IdentityRole<int>,int>
     {
         //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         //{
@@ -18,6 +20,8 @@ namespace AppInfraDbSqlServer
         //}
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
         public DbSet<OldCar> OldCars { get; set; }
 
         public DbSet<TechnicalExamination> TechnicalExaminations { get; set; }
@@ -27,7 +31,7 @@ namespace AppInfraDbSqlServer
          
 
             modelBuilder.ApplyConfiguration(new CarConfigration());
-            modelBuilder.ApplyConfiguration(new UserCinfigurations());
+            modelBuilder.ApplyConfiguration(new RoleConfigration());
             modelBuilder.ApplyConfiguration(new TechnicalExaminationConfiguration());
 
 
@@ -36,7 +40,7 @@ namespace AppInfraDbSqlServer
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseSqlServer
-        //        (@"Server=LAPTOP-GM2D722B; Initial Catalog=Hw-20; User Id=sa; Password=13771377; TrustServerCertificate=True;");
+        //        (@"Server=LAPTOP-GM2D722B; Initial Catalog=Hw-21; User Id=sa; Password=13771377; TrustServerCertificate=True;");
         //}
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

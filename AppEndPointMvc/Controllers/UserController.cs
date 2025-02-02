@@ -5,6 +5,7 @@ using AppDomainService;
 using AppInfraDbInMemory;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
+using AppDomainCore.Dto;
 
 namespace AppEndPointMvc.Controllers
 {
@@ -23,9 +24,9 @@ namespace AppEndPointMvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user,CancellationToken cancellationToken)
+        public async Task<IActionResult> Login(string userName,string password,CancellationToken cancellationToken)
         {
-            var User =await _userAppService.Login(user.UserName, user.Password, cancellationToken);
+            var User = await _userAppService.Login(userName,password);
 
             if (User != null)
             {
@@ -40,15 +41,15 @@ namespace AppEndPointMvc.Controllers
 
         public async Task<IActionResult> Register()
         {
-            return View(new User());
+            return View(new UserDto());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(User user,CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(UserDto user,CancellationToken cancellationToken)
         {
 
            await _userAppService.Register(user, cancellationToken);
-            if (User != null)
+            if (user != null)
             {
                 TempData["Success"] = " با موفقیت ثبت شد ";
                 return RedirectToAction("index", "Home");
@@ -61,7 +62,7 @@ namespace AppEndPointMvc.Controllers
 
         public IActionResult Logout()
         {
-            InMemory.CurentUser = null;
+            HttpContext.Response.Cookies.Delete("ApiKey");
             TempData["Success"] = " خارج شدید ";
             return RedirectToAction("index", "Home");
 

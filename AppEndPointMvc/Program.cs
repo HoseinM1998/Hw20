@@ -5,10 +5,13 @@ using AppDomainCore.Contract.Car;
 using AppDomainCore.Contract.OldCar;
 using AppDomainCore.Contract.TechnicalExamination;
 using AppDomainCore.Contract.User;
+using AppDomainCore.Entities;
 using AppDomainCore.Entities.Config;
+using AppDomainCore.PersianIdentity;
 using AppDomainService;
 using AppInfraDataAccessEf.Repositories;
 using AppInfraDbSqlServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,8 +64,23 @@ builder.Services.AddScoped<IOldCarAppService, OldCarAppService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 5;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddRoles<IdentityRole<int>>()
+    .AddErrorDescriber<PersianIdentityErrorDescriber>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

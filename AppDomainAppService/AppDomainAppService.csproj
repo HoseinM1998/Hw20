@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AppDomainCore\AppDomainCore.csproj" />
     <ProjectReference Include="..\AppDomainService\AppDomainService.csproj" />
     <ProjectReference Include="..\AppInfraDbInMemory\AppInfraDbInMemory.csproj" />

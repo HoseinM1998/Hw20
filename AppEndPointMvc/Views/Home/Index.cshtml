@@ -11,6 +11,15 @@
             </samp>
         </div>
     }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <samp>
+                @TempData["Error"].ToString()
+            </samp>
+        </div>
+    }
     }
 
     <div class="text-center">

@@ -54,7 +54,7 @@ namespace AppEndPointApi.Controllers
                 var technicals = await _techAppService.GetAll(cancellationToken);
                 if (technicals == null || !technicals.Any())
                 {
-                    return NotFound("هیچ آزمایش فنی یافت نشد.");
+                    return NotFound("هیچ معاینه فنی یافت نشد.");
                 }
                 return Ok(technicals);
             }
